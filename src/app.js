@@ -40,12 +40,6 @@ app.all('*', (req, res, next) => {
 	res.sendStatus(404);
 });
 
-(async () => {
-	await mongoose
-		.connect(process.env.MONGO_URI)
-		.catch((err) => console.error('[ERROR]', err));
-})();
-
 mongoose.connection.on('connected', () => {
 	console.info('[INFO] DATABASE', color.green('Connected.'));
 });
@@ -67,7 +61,17 @@ mongoose.connection.on('err', (err) => {
 	);
 });
 
+(async () => {
+	await mongoose
+		.connect(process.env.MONGO_URI)
+		.catch((err) => console.error('[ERROR]', err));
+})();
+
 setInterval(() => {
+	if (!fs.existsSync('./src/temp')) {
+		fs.mkdirSync('./src/temp', { recursive: true });
+		console.info('[INFO] TEMP', color.yellow('Folder Created.'));
+	}
 	fs.readdir('./src/temp', function (err, files) {
 		if (!files[0]) return;
 		files.forEach(function (file, index) {

@@ -4,7 +4,7 @@
   "description": "Made with love <3",
   "main": "src/server.js",
   "scripts": {
-    "test": "node .",
+    "start": "node .",
     "dev": "nodemon ."
   },
   "repository": {
