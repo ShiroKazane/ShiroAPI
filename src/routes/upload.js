@@ -29,7 +29,7 @@ router.post('/:id', masterToken, upload.single('image'), (req, res, next) => {
 	sharp(req.file.path).jpeg().toFile(compressedImage);
 	res.status(200).json({
 		url: `http://${req.hostname}/image/${
-			compressedImage.slice(21).split('.')[0]
+			compressedImage.slice(20).split('.')[0]
 		}?format=${compressedImage.slice(21).split('.')[1]}`
 	});
 });
