@@ -6,7 +6,7 @@ const path = require('path');
 router.get('/:id', (req, res, next) => {
 	let format = req.query.format;
 	let download = req.query.download;
-	if (!format) return res.sendStatus(404);
+	if (!format) return res.status(404).render('4xx/404');
 	const imageFolders = fs.readdirSync('./src/public');
 	for (const folder of imageFolders) {
 		const imageFiles = fs
@@ -27,7 +27,7 @@ router.get('/:id', (req, res, next) => {
 			}
 		}
 	}
-	res.sendStatus(404);
+	res.status(404).render('4xx/404');
 });
 
 module.exports = router;

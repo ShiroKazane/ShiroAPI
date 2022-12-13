@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const ejs = require('ejs');
 const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const serveIndex = require('serve-index');
@@ -8,10 +9,17 @@ const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 const color = require('cli-color');
+const Table = require('cli-table');
 const rimraf = require('rimraf');
 const app = express();
+ejs.delimiter = '?';
+
+if (!fs.existsSync('./src/temp')) {
+	fs.mkdirSync('./src/temp', { recursive: true });
+}
 
 app.set('view engine', 'ejs');
+app.disable('x-powered-by');
 app.use(favicon('./src/assets/favicon.ico'));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -36,8 +44,12 @@ for (const file of routeFiles) {
 	app.use(`/${file.split('.')[0]}`, routes);
 }
 
+app.get('/', (req, res, next) => {
+	res.render('index');
+});
+
 app.all('*', (req, res, next) => {
-	res.sendStatus(404);
+	res.status(404).render('4xx/404');
 });
 
 mongoose.connection.on('connected', () => {
@@ -67,11 +79,30 @@ mongoose.connection.on('err', (err) => {
 		.catch((err) => console.error('[ERROR]', err));
 })();
 
+const table = new Table({
+	head: [color.green('API'), color.green('Amount')],
+	colWidths: [9, 9],
+	style: { compact: true, 'padding-left': 1 }
+});
+
+const apiFolders = fs
+	.readdirSync('./src/public')
+	.filter((dir) => !/(^|\/)\.[^\/\.]/g.test(dir));
+for (const folder of apiFolders) {
+	const files = fs
+		.readdirSync(`./src/public/${folder}`)
+		.filter(
+			(file) =>
+				file.endsWith('jpg') || file.endsWith('png') || file.endsWith('jpeg')
+		);
+	table.push([
+		folder.charAt(0).toUpperCase() + folder.substr(1).toLowerCase(),
+		files.length
+	]);
+}
+console.info(table.toString());
+
 setInterval(() => {
-	if (!fs.existsSync('./src/temp')) {
-		fs.mkdirSync('./src/temp', { recursive: true });
-		console.info('[INFO] TEMP', color.yellow('Folder Created.'));
-	}
 	fs.readdir('./src/temp', function (err, files) {
 		if (!files[0]) return;
 		files.forEach(function (file, index) {

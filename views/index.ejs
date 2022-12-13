@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ShiroAPI - Home</title>
+		<style>
+			@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+			@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: 'Poppins', sans-serif;
+			}
+
+			section {
+				position: relative;
+				width: 100%;
+				min-height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				overflow: hidden;
+			}
+
+			section header {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100px;
+				padding: 40px 100px;
+				z-index: 100;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			section header .logo {
+				position: relative;
+				font-size: 2em;
+				color: #fffafa;
+				text-decoration: none;
+				letter-spacing: 2px;
+				font-weight: 700;
+				text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+				transition: 0.5s;
+			}
+
+			section header .toggle {
+				position: relative;
+				left: 0;
+				width: 40px;
+				height: 40px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				cursor: pointer;
+				overflow: hidden;
+			}
+
+			section header .toggle span {
+				position: absolute;
+				width: 30px;
+				height: 3px;
+				background: #fffafa;
+				border-radius: 3px;
+				transition: 0.5s;
+				box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+			}
+
+			section header .toggle span:nth-child(1) {
+				transform: translateY(-10px);
+				width: 17.5px;
+				left: 5px;
+			}
+
+			section header .toggle.active span:nth-child(1) {
+				width: 30px;
+				transform: translateY(0px) rotate(45deg);
+				transition-delay: 0.125s;
+				box-shadow: 2px 0 0 rgba(0, 0, 0, 0.1);
+			}
+
+			section header .toggle span:nth-child(2) {
+				transform: translateY(10px);
+				width: 10px;
+				left: 5px;
+			}
+
+			section header .toggle.active span:nth-child(2) {
+				width: 30px;
+				transform: translateY(0px) rotate(135deg);
+				transition-delay: 0.25s;
+				box-shadow: 2px -2px 0 rgba(0, 0, 0, 0.1);
+			}
+
+			section header .toggle.active span:nth-child(3) {
+				transform: translateX(60px);
+			}
+
+			section video {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+			.glass {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 40%;
+				height: 100%;
+				backdrop-filter: blur(15px);
+				z-index: 1;
+				box-shadow: 10px 0 15px rgba(0, 0, 0, 0.1);
+				transition: 0.5s;
+				transition-delay: 1s;
+			}
+
+			section.active .glass {
+				width: 100%;
+				backdrop-filter: blur(20px);
+				box-shadow: 10px 0 15px rgba(0, 0, 0, 0.5);
+				transition-delay: 0s;
+			}
+
+			section .content {
+				position: relative;
+				z-index: 10;
+				text-align: center;
+				transition: 0.5s;
+				transition-delay: 1s;
+			}
+
+			section.active .content {
+				opacity: 0;
+				visibility: hidden;
+				transform: translateX(-200px);
+				transition-delay: 0s;
+			}
+
+			section .content h2 {
+				position: relative;
+				color: #fffafa;
+				font-size: 10vw;
+				line-height: 0.55em;
+				text-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+				font-family: 'Dancing Script', cursive;
+			}
+
+			section .content h2 span {
+				font-size: 0.2em;
+				font-weight: 300;
+				letter-spacing: 5px;
+				background: #fffafa;
+				color: #242424;
+				padding: 0 10px;
+				text-shadow: 0 5px 5px rgba(0, 0, 0, 0);
+				box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+			}
+
+			section footer a {
+				position: absolute;
+				bottom: 40px;
+				right: 100px;
+				display: flex;
+				z-index: 100;
+				background: #fffafa;
+				color: #242424;
+				margin: 5px;
+				padding: 0 6px;
+				transition: 0.5s;
+				text-decoration: none;
+				letter-spacing: 2px;
+				font-weight: 500;
+				font-size: 12px;
+			}
+
+			section .navigation {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 100;
+			}
+
+			section .navigation li {
+				list-style: none;
+				text-align: center;
+				margin: 15px 0;
+				opacity: 0;
+				visibility: hidden;
+				transition: 0.5s;
+				transform: translateX(200px);
+				transition-delay: calc(0.2s * var(--i));
+			}
+
+			section.active .navigation li {
+				opacity: 1;
+				visibility: visible;
+				transform: translateX(0px);
+			}
+
+			section .navigation li a {
+				color: #242424;
+				font-size: 1.5em;
+				letter-spacing: 4px;
+				text-decoration: none;
+				font-weight: 300;
+				text-transform: uppercase;
+				background: #fffafa;
+				padding: 4px 10px;
+				display: inline-block;
+			}
+
+			section .navigation li a:hover {
+				background: #242424;
+				color: #fffafa;
+				letter-spacing: 10px;
+				text-transform: capitalize;
+			}
+
+			@media (max-width: 991px) {
+				header {
+					padding: 20px;
+				}
+
+				.glass {
+					width: 50%;
+				}
+
+				section .content h2 {
+					font-size: 18vw;
+				}
+
+				section .content h2 span {
+					font-size: 0.25em;
+					letter-spacing: 2px;
+					padding: 0 5px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<section>
+			<header>
+				<a href="/" class="logo">ShiroAPI.</a>
+				<div class="toggle">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</header>
+
+			<div class="glass"></div>
+			<div class="content">
+				<h2>Elaina...<br /><span>Best Waifu.</span></h2>
+			</div>
+			<video
+				src="http://localhost/.private/elaina.mp4"
+				autoplay
+				muted
+				loop></video>
+			<footer>
+				<a href="https://github.com/ShiroKazane" target="_blank"
+					>© 2022 ShiroKazane</a
+				>
+			</footer>
+			<ul class="navigation">
+				<li style="--i: 1"><a href="/">Home</a></li>
+				<li style="--i: 2"><a href="/api" target="_blank">API</a></li>
+				<li style="--i: 3">
+					<a href="https://discord.gg/" target="_blank">Discord</a>
+				</li>
+			</ul>
+		</section>
+		<script>
+			document.querySelector('.toggle').onclick = function () {
+				document.querySelector('.toggle').classList.toggle('active');
+				document.querySelector('section').classList.toggle('active');
+			};
+		</script>
+	</body>
+</html>

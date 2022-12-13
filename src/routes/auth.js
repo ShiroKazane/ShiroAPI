@@ -9,46 +9,69 @@ const masterToken = require('../middleware/masterToken');
 router.get('/login', authToken, (req, res, next) => {
 	let url = req.query.url;
 	if (url) return res.status(200).redirect(url);
-	res.sendStatus(200);
+	res.status(200).render('2xx/200', {
+		message: 'Authorization valid.'
+	});
 });
 
 router.post('/signup', masterToken, (req, res, next) => {
-	User.findOne({ username: req.body.username })
+	let username = req.body.username;
+	if (!username)
+		return res.status(400).render('4xx/400', {
+			message: 'This server request username.'
+		});
+	User.findOne({ username: username })
 		.exec()
 		.then((user) => {
 			if (user) {
-				return res.status(409).json({
-					message: 'User Exist.',
+				return res.status(409).render('4xx/409', {
+					message: 'User already exist.'
 				});
 			} else {
-				const userToken = { username: req.body.username };
+				const userToken = { username: username };
 				const token = jwt.sign(userToken, process.env.ACCESS_TOKEN_SECRET);
 				const user = new User({
 					_id: new mongoose.Types.ObjectId(),
-					username: req.body.username,
-					token: token,
+					username: username,
+					token: token
 				});
 				user
 					.save()
 					.then((result) => {
-						console.log(result);
-						res.status(201).json({
-							message: 'User Created.',
+						console.log(`${result.username}(${result.token})`);
+						res.status(201).render('2xx/201', {
+							message: `${result.username}(${result.token})`
 						});
 					})
 					.catch((err) => {
 						console.log(err);
-						res.status(500).json({
-							error: err,
-						});
+						res.status(500).render('5xx/500');
 					});
 			}
 		});
 });
 
-router.delete('/:username', masterToken, (req, res, next) => {
-	let username = req.params.username;
-	User.findOneAndDelete({ username: username });
+router.delete('/delete', masterToken, (req, res, next) => {
+	let username = req.body.username;
+	if (!username)
+		return res.status(400).render('4xx/400', {
+			message: 'This server request username.'
+		});
+	try {
+		User.findOneAndRemove({ username: username }, function (err, docs) {
+			if (docs === null || err)
+				return res.status(400).render('4xx/400', {
+					message: 'User not found.'
+				});
+			console.log(`${docs.username}(${docs.token}) has been deleted.`);
+			res.status(200).render('2xx/200', {
+				message: `${docs.username}(${docs.token}) has been deleted.`
+			});
+		});
+	} catch (err) {
+		console.log(err);
+		res.status(500).render('5xx/500');
+	}
 });
 
 module.exports = router;

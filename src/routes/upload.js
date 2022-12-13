@@ -17,11 +17,20 @@ let storage = multer.diskStorage({
 let upload = multer({ storage: storage });
 
 router.post('/:id', masterToken, upload.single('image'), (req, res, next) => {
-	if (!req.file && !req.file.path) return res.sendStatus(400);
-	let compressedImage = path.join(`./src/public/${req.params.id}/${randomString()}${path.extname(req.file.path)}`);
+	if (!req.file && !req.file.path)
+		return res.status(400).render('4xx/400', {
+			message: 'This server request file to be uploaded.'
+		});
+	let compressedImage = path.join(
+		`./src/public/${req.params.id}/${randomString()}${path.extname(
+			req.file.path
+		)}`
+	);
 	sharp(req.file.path).jpeg().toFile(compressedImage);
 	res.status(200).json({
-		url: `http://${req.hostname}/image/${compressedImage.slice(16)}`
+		url: `http://${req.hostname}/image/${
+			compressedImage.slice(21).split('.')[0]
+		}?format=${compressedImage.slice(21).split('.')[1]}`
 	});
 });
 

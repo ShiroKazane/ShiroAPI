@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const { title } = require('process');
 const authToken = require('../middleware/authToken');
 
 router.get('/', (req, res, next) => {
@@ -22,11 +23,17 @@ router.get('/:id', authToken, (req, res, next) => {
 			let index = Math.floor(Math.random() * length);
 			let result = files.splice(index, 1);
 			res.status(200).json({
-				url: 'http://' + req.hostname + '/image/' + result.toString().split('.')[0] + '?format=' + path.extname(result.toString()).slice(1),
+				url:
+					'http://' +
+					req.hostname +
+					'/image/' +
+					result.toString().split('.')[0] +
+					'?format=' +
+					path.extname(result.toString()).slice(1)
 			});
 		}
 	} else {
-		res.sendStatus(404);
+		res.status(404).render('4xx/404');
 	}
 });
 
