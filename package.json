@@ -1,7 +1,7 @@
 {
   "name": "shiro-api",
   "version": "1.0.0",
-  "description": "Made with love ❤️ by ShiroKazane",
+  "description": "Made with ❤️ by ShiroKazane",
   "main": "src/server.js",
   "scripts": {
     "start": "node .",
