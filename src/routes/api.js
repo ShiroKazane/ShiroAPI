@@ -8,7 +8,7 @@ const requestCount = require('../middleware/requestCount');
 router.get('/', (req, res, next) => {
 	const list = fs
 		.readdirSync('./src/public')
-		.filter((dir) => !/(^|\/)\.[^\/\.]/g.test(dir));
+		.filter((dir) => !/(^|\/)\_[^\/\_]/g.test(dir));
 	res.status(200).json(list);
 });
 

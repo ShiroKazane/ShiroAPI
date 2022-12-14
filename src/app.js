@@ -87,7 +87,7 @@ const table = new Table({
 
 const apiFolders = fs
 	.readdirSync('./src/public')
-	.filter((dir) => !/(^|\/)\.[^\/\.]/g.test(dir));
+	.filter((dir) => !/(^|\/)\_[^\/\_]/g.test(dir));
 for (const folder of apiFolders) {
 	const files = fs
 		.readdirSync(`./src/public/${folder}`)
