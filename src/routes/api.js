@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
-const { title } = require('process');
 const authToken = require('../middleware/authToken');
+const requestCount = require('../middleware/requestCount');
 
 router.get('/', (req, res, next) => {
 	const list = fs
@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
 	res.status(200).json(list);
 });
 
-router.get('/:id', authToken, (req, res, next) => {
+router.get('/:id', authToken, requestCount, (req, res, next) => {
 	let param = './src/public/' + req.params.id;
 	if (fs.existsSync(param)) {
 		let requiredCount = 1;

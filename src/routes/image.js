@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const requestCount = require('../middleware/requestCount');
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', requestCount, (req, res, next) => {
 	let format = req.query.format;
 	let download = req.query.download;
 	if (!format) return res.status(404).render('4xx/404');
