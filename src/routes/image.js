@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const formatImage = require('../middleware/formatImage');
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
+	let format = req.query.format;
 	let download = req.query.download;
 	const imageFolders = fs.readdirSync('./src/public');
 	for (const folder of imageFolders) {
@@ -18,7 +20,13 @@ router.get('/:id', (req, res, next) => {
 				const image = path.resolve(
 					path.resolve(`./src/public/${folder}/${file}`)
 				);
+				const temp = path.resolve(`./src/temp/${file.slice(0, 15)}.${format}`);
 				if (download === 'true') return res.download(image, `${file}`);
+				if (format && format !== file.slice(16)) {
+					if (fs.existsSync(temp)) return res.sendFile(temp);
+					await formatImage(image, format, temp);
+					return res.sendFile(temp);
+				}
 				return res.sendFile(image);
 			}
 		}

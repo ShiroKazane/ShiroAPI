@@ -1,6 +1,6 @@
 const Request = require('../models/requests');
 
-module.exports = (req, res, next) => {
+module.exports = (next) => {
 	Request.findByIdAndUpdate(
 		'63993c791dabad08e2597f57',
 		{

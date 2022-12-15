@@ -1,14 +1,10 @@
-module.exports = (strLength, charSet) => {
+module.exports = (length, char) => {
 	var result = [];
-
-	strLength = strLength || 15;
-	charSet =
-		charSet ||
-		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-
-	while (strLength--) {
-		result.push(charSet.charAt(Math.floor(Math.random() * charSet.length)));
+	length = length || 15;
+	char =
+		char || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+	while (length--) {
+		result.push(char.charAt(Math.floor(Math.random() * char.length)));
 	}
-
 	return result.join('');
 };
