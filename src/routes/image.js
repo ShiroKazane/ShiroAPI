@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 
 router.get('/:id', (req, res, next) => {
-	let format = req.query.format;
 	let download = req.query.download;
 	const imageFolders = fs.readdirSync('./src/public');
 	for (const folder of imageFolders) {
