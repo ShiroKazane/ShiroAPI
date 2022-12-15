@@ -6,7 +6,6 @@ const path = require('path');
 router.get('/:id', (req, res, next) => {
 	let format = req.query.format;
 	let download = req.query.download;
-	if (!format) return res.status(404).render('4xx/404');
 	const imageFolders = fs.readdirSync('./src/public');
 	for (const folder of imageFolders) {
 		const imageFiles = fs
@@ -16,13 +15,11 @@ router.get('/:id', (req, res, next) => {
 					file.endsWith('jpg') || file.endsWith('png') || file.endsWith('jpeg')
 			);
 		for (let file of imageFiles) {
-			if (file === req.params.id + '.' + format) {
-				file = req.params.id;
+			if (file.slice(0, 15) === req.params.id) {
 				const image = path.resolve(
-					path.resolve(`./src/public/${folder}/${file}.${req.query.format}`)
+					path.resolve(`./src/public/${folder}/${file}`)
 				);
-				if (download === 'true')
-					return res.download(image, `${file}.${req.query.format}`);
+				if (download === 'true') return res.download(image, `${file}`);
 				return res.sendFile(image);
 			}
 		}

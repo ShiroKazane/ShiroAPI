@@ -112,7 +112,7 @@ setInterval(() => {
 					return console.error(err);
 				}
 				now = new Date().getTime();
-				endTime = new Date(stat.ctime).getTime() + 5;
+				endTime = new Date(stat.ctime).getTime() + 3600000;
 				if (now > endTime) {
 					return rimraf(path.join('./src/temp', file), function (err) {
 						if (err) {
@@ -122,8 +122,7 @@ setInterval(() => {
 				}
 			});
 		});
-		console.info('[INFO] TEMP', color.yellow('Image Deleted.'));
 	});
-}, 150000);
+}, 60000);
 
 module.exports = app;
