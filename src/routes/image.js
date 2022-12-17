@@ -16,7 +16,7 @@ router.get('/:id', async (req, res, next) => {
 					file.endsWith('jpg') || file.endsWith('png') || file.endsWith('jpeg')
 			);
 		for (let file of imageFiles) {
-			if (file.slice(0, 15) === req.params.id) {
+			if (file.slice(0, 15) === (req.params.id || req.params.id.slice(0, 15))) {
 				const image = path.resolve(
 					path.resolve(`./src/public/${folder}/${file}`)
 				);
