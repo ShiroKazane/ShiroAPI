@@ -1,4 +1,7 @@
+const os = require('os');
+const cores = os.cpus().length;
 const sharp = require('sharp');
+sharp.concurrency(cores);
 
 module.exports = async (path, format, dest) => {
 	if (format === 'png') {
