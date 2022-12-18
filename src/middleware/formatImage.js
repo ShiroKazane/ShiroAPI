@@ -12,12 +12,8 @@ module.exports = async (path, format, dest) => {
 			case 'webp':
 				await sharp(path).toFormat('webp', { quality: 100 }).toFile(dest);
 				break;
-			case 'jpeg':
-			case 'jpg':
-				await sharp(path).toFormat('jpeg', { quality: 100, mozjpeg: true }).toFile(dest);
-				break;
 			default:
-				res.status(404).render('4xx/404');
+				await sharp(path).toFormat('jpeg', { quality: 100, mozjpeg: true }).toFile(dest);
 		}
 	} catch (err) {
 		console.error('[ERROR]', err);
