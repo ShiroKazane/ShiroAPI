@@ -2,16 +2,14 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 const User = require('../models/users');
-const authToken = require('../middleware/authToken');
 const masterToken = require('../middleware/masterToken');
+const { whitelists } = require('../whitelists.json');
 
-router.get('/login', authToken, (req, res, next) => {
-	let url = req.query.url;
-	if (url) return res.status(200).redirect(url);
-	res.status(200).render('2xx/200', {
-		message: 'Authorization valid.'
-	});
+router.get('/login', (req, res, next) => {
+	if (req.user && whitelists.includes(req.user.id)) return res.redirect('/_dir/');
+	res.render('login');
 });
 
 router.post('/signup', masterToken, (req, res, next) => {
@@ -72,6 +70,12 @@ router.delete('/delete', masterToken, (req, res, next) => {
 		console.log(err);
 		res.status(500).render('5xx/500');
 	}
+});
+
+router.get('/discord', passport.authenticate('discord'));
+
+router.get('/discord/callback', passport.authenticate('discord', { failureRedirect: '/auth/discord' }), function(req, res) {
+	res.redirect('/_dir/')
 });
 
 module.exports = router;

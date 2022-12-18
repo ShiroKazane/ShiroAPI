@@ -26,9 +26,7 @@ router.get('/:id', authToken, requestCount, (req, res, next) => {
 			let index = Math.floor(Math.random() * length);
 			let result = files.splice(index, 1);
 			res.status(200).json({
-				url: `http://${req.hostname}/image/${
-					result.toString().split('.')[0]
-				}?format=${path.extname(result.toString()).slice(1)}`
+				url: `http://${req.hostname}/image/${result.toString().split('.')[0]}?format=${path.extname(result.toString()).slice(1)}`
 			});
 		}
 	} else {

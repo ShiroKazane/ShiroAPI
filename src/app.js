@@ -11,6 +11,11 @@ const mongoose = require('mongoose');
 const color = require('cli-color');
 const Table = require('cli-table');
 const rimraf = require('rimraf');
+const toProperCase = require('./middleware/toProperCase');
+const discordAuth = require('./middleware/discordAuth');
+const passport = require('passport');
+const session = require('express-session');
+const DiscordStrategy = require('passport-discord').Strategy;
 const app = express();
 ejs.delimiter = '?';
 
@@ -24,17 +29,20 @@ app.use(favicon('./src/assets/favicon.ico'));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-	express.static('src/public', {
-		index: false,
-		extensions: ['jpg', 'png', 'jpeg']
-	})
-);
-app.use(
-	'/_dir',
-	express.static('src/public'),
-	serveIndex('src/public', { icons: true, hidden: true, view: 'details' })
-);
+app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
+passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, callbackURL: '/auth/discord/callback', scope: ['identify'] }, function (accessToken, refreshToken, profile, cb) {
+	return cb(null, profile);
+}));
+app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: false }));
+passport.serializeUser(function (user, done) {
+	done(null, user.id);
+});
+passport.deserializeUser(function (id, done) {
+	done(null, { id: id });
+});
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/_dir', discordAuth, express.static('src/public'), serveIndex('src/public', { icons: true, hidden: true, view: 'details' }));
 
 const routeFiles = fs
 	.readdirSync(`./src/routes`)
@@ -95,10 +103,7 @@ for (const folder of apiFolders) {
 			(file) =>
 				file.endsWith('jpg') || file.endsWith('png') || file.endsWith('jpeg')
 		);
-	table.push([
-		folder.charAt(0).toUpperCase() + folder.substr(1).toLowerCase(),
-		files.length
-	]);
+	table.push([toProperCase(folder), files.length]);
 }
 console.info(table.toString());
 
@@ -107,16 +112,16 @@ setInterval(() => {
 		if (!files[0]) return;
 		files.forEach(function (file, index) {
 			fs.stat(path.join('./src/temp', file), function (err, stat) {
-				var endTime, now;
+				var end, now;
 				if (err) {
 					return console.error(err);
 				}
 				now = new Date().getTime();
-				endTime = new Date(stat.ctime).getTime() + 3600000;
-				if (now > endTime) {
+				end = new Date(stat.ctime).getTime() + 3600000;
+				if (now > end) {
 					return rimraf(path.join('./src/temp', file), function (err) {
 						if (err) {
-							return console.error(err);
+							return console.error('[ERROR]', err);
 						}
 					});
 				}

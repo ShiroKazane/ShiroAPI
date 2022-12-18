@@ -22,11 +22,7 @@ router.post('/:id', masterToken, upload.single('image'), (req, res, next) => {
 		return res.status(400).render('4xx/400', {
 			message: 'This server request file to be uploaded.'
 		});
-	let compressedImage = path.join(
-		`./src/public/${req.params.id}/${randomString()}${path.extname(
-			req.file.path
-		)}`
-	);
+	let compressedImage = path.join(`./src/public/${req.params.id}/${randomString()}${path.extname(req.file.path)}`);
 	if (compress === 'true') {
 		sharp(req.file.path)
 			.jpeg({
@@ -47,9 +43,7 @@ router.post('/:id', masterToken, upload.single('image'), (req, res, next) => {
 			.toFile(compressedImage);
 	}
 	res.status(200).json({
-		url: `http://${req.hostname}/image/${
-			compressedImage.slice(20).split('.')[0]
-		}?format=${compressedImage.slice(21).split('.')[1]}`
+		url: `http://${req.hostname}/image/${compressedImage.slice(20).split('.')[0]}?format=${compressedImage.slice(21).split('.')[1]}`
 	});
 });
 
