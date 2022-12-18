@@ -3,6 +3,7 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 const formatImage = require('../middleware/formatImage');
+const extensions = ['jpeg', 'jpg', 'webp', 'png'];
 
 router.get('/:id', async (req, res) => {
 	const { format, download } = req.query;
@@ -11,7 +12,7 @@ router.get('/:id', async (req, res) => {
 	for (const folder of imageFolders) {
 		const imageFiles = fs
 			.readdirSync(`./src/public/${folder}`)
-			.filter((file) => file.endsWith('jpg') || file.endsWith('png') || file.endsWith('jpeg'));
+			.filter((file) => extensions.some((ext) => file.endsWith(ext)));
 
 		for (let file of imageFiles) {
 			if ( file.slice(0, 15) === req.params.id || file.slice(0, 15) === req.params.id.slice(0, 15)) {
@@ -23,6 +24,9 @@ router.get('/:id', async (req, res) => {
 				if (format && format !== file.slice(16)) {
 					if (fs.existsSync(temp)) {
 						return res.sendFile(temp);
+					}
+					if (!extensions.includes(format)) {
+						return res.status(404).render('4xx/404');
 					}
 					await formatImage(image, format, temp);
 					return res.sendFile(temp);
