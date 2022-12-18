@@ -42,7 +42,7 @@ passport.deserializeUser(function (id, done) {
 });
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/_dir', discordAuth, express.static('src/public'), serveIndex('src/public', { icons: true, hidden: true, view: 'details' }));
+app.use('/_dir', discordAuth, express.static('src/public'), serveIndex('src/public', { icons: true, hidden: true, view: 'details', stylesheet: 'src/assets/directory.css' }));
 
 const routeFiles = fs
 	.readdirSync(`./src/routes`)

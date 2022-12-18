@@ -11,15 +11,15 @@
 			name="keywords"
 			content="shiroapi, shiro api, shirokazane, rest api, restful api, image, neko" />
 		<meta name="author" content="ShiroKazane" />
-		<meta name="url" content="api.shirokazane.my.idid/auth/login" />
+		<meta name="url" content="api.shirokazane.my.id/auth/login" />
 		<meta name="og:title" content="ShiroAPI - Login" />
 		<meta name="og:type" content="website" />
-		<meta name="og:url" content="api.shirokazane.my.idid/auth/login" />
+		<meta name="og:url" content="api.shirokazane.my.id/auth/login" />
 		<meta name="og:image" content="/image/c9XJcP-w0n9ls7E" />
 		<meta name="og:site_name" content="ShiroAPI" />
 		<meta name="og:description" content="Made with &#10084; by ShiroKazane." />
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:site" content="api.shirokazane.my.idid/auth/login" />
+		<meta name="twitter:site" content="api.shirokazane.my.id/auth/login" />
 		<meta name="twitter:creator" content="@ShiroKazane" />
 		<meta name="twitter:title" content="ShiroAPI - Login" />
 		<meta
@@ -28,62 +28,70 @@
 		<meta name="twitter:image" content="/image/c9XJcP-w0n9ls7E" />
 		<style>
 			@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: 'Poppins', sans-serif;
-            }
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			}
 
-            body {
+			body {
+				display: flex;
+				padding: 0 10px;
+				align-items: center;
+				justify-content: center;
+				min-height: 100vh;
+				background: #2f3136;
+			}
+
+			.wrapper {
+				max-width: 500px;
+				background: #36393f;
+				border-radius: 7px;
+				padding: 20px 25px 15px;
+			}
+
+			header h1 {
+				font-size: 20px;
+				font-weight: 600;
+				color: #fff;
+				padding-bottom: 16px;
+			}
+
+			header p {
+				font-size: 16px;
+                font-weight: 400;
+				color: #a3a6aa;
+			}
+
+            .wrapper button {
                 display: flex;
-                padding: 0 10px;
-                align-items: center;
                 justify-content: center;
-                min-height: 100vh;
-                background: #36393f;
             }
 
-            .wrapper {
-                max-width: 500px;
-                background: #fffafa;
-                border-radius: 7px;
-                padding: 20px 25px 15px;
-                box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-            }
-
-            header h1 {
-                font-size: 27px;
-                font-weight: 500;
-            }
-
-            header p {
-                margin-top: 5px;
-                font-size: 18px;
-                color: #474747;
-            }
-
-            button {
-                margin: 20px 0 5px;
-                width: 100%;
-                border: none;
-                outline: none;
-                color: #fffafa;
-                cursor: pointer;
-                font-size: 17px;
-                padding: 15px 0;
-                border-radius: 5px;
-                background: #6370f4;
-            }
+			button {
+				margin: 20px auto 5px;
+				width: 75%;
+				border: none;
+				outline: none;
+				color: #fffafa;
+				cursor: pointer;
+				font-size: 16px;
+				padding: 12px 14px;
+				border-radius: 5px;
+				background: #6370f4;
+			}
 		</style>
 	</head>
 	<body>
-        <div class="wrapper">
-        <header>
-            <h1>Login</h1>
-            <p>Please login to access this page.</p>
-        </header>
-            <button onclick="window.location.href='/auth/discord'">Login with Discord</button>
-        </div>
+		<div class="wrapper">
+			<header>
+				<h1>Login</h1>
+				<p>Please login to access this page.</p>
+			</header>
+			<button onclick="window.location.href='/auth/discord'">
+				Login with Discord
+			</button>
+		</div>
 	</body>
 </html>
