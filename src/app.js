@@ -31,7 +31,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
-passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, callbackURL: '/auth/discord/callback', scope: ['identify'] }, function (accessToken, refreshToken, profile, cb) {
+passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, callbackURL: '/auth/discord/callback', scope: ['identify', 'email'] }, function (accessToken, refreshToken, profile, cb) {
 	return cb(null, profile);
 }));
 app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: false }));
