@@ -1,3 +1,4 @@
+require('https').globalAgent.options.rejectUnauthorized = false;
 const http = require('http');
 const app = require('./app');
 const color = require('cli-color');
