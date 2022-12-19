@@ -35,10 +35,10 @@ passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clie
 }));
 app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: false }));
 passport.serializeUser(function (user, done) {
-	done(null, user.id);
+	done(null, user);
 });
-passport.deserializeUser(function (id, done) {
-	done(null, { id: id });
+passport.deserializeUser(function (user, done) {
+	done(null, user);
 });
 app.use(passport.initialize());
 app.use(passport.session());

@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const sharp = require('sharp');
+const fs = require('fs');
 const path = require('path');
 const masterToken = require('../middleware/masterToken');
 const randomString = require('../middleware/randomString');
+const discordAuth = require('../middleware/discordAuth');
+const toProperCase = require('../middleware/toProperCase');
 
 let storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -16,7 +19,31 @@ let storage = multer.diskStorage({
 });
 let upload = multer({ storage: storage });
 
+router.get('/', discordAuth, (req, res, next) => {
+	const directories = fs.readdirSync('./src/public');
+	const content = toProperCase(JSON.stringify(directories));
+	res.status(200).render('upload-list', {
+		content
+	})
+})
+
+router.get('/:id', discordAuth, upload.single('image'), (req, res, next) => {
+	const dest = path.resolve(`./src/public/${req.params.id}`);
+	if (!fs.existsSync(dest)) {
+		return res.status(404).render('4xx/404');
+	}
+	res.render('upload', {
+		title: `Upload ${toProperCase(req.params.id)}`,
+		url: req.originalUrl,
+		token: process.env.SHIRO_API_KEY
+	});
+})
+
 router.post('/:id', masterToken, upload.single('image'), (req, res, next) => {
+	const dest =  path.resolve(`./src/public/${req.params.id}`);
+	if (!fs.existsSync(dest)) {
+		return res.status(404).render('4xx/404')
+	}
 	let compress = req.query.compress;
 	if (!req.file || !req.file.path)
 		return res.status(400).render('4xx/400', {

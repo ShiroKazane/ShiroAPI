@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ShiroAPI - Dashboard</title>
+		<meta name="title" content="ShiroAPI - Dashboard" />
+		<meta name="theme-color" content="currentColor" />
+		<meta name="description" content="Made with &#10084; by ShiroKazane." />
+		<meta
+			name="keywords"
+			content="shiroapi, shiro api, shirokazane, rest api, restful api, image, neko" />
+		<meta name="author" content="ShiroKazane" />
+		<meta name="url" content="api.shirokazane.my.id/dashboard" />
+		<meta name="og:title" content="ShiroAPI - Dashboard" />
+		<meta name="og:type" content="website" />
+		<meta name="og:url" content="api.shirokazane.my.id/dashboard" />
+		<meta name="og:image" content="/image/c9XJcP-w0n9ls7E" />
+		<meta name="og:site_name" content="ShiroAPI" />
+		<meta name="og:description" content="Made with &#10084; by ShiroKazane." />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="api.shirokazane.my.id/dashboard" />
+		<meta name="twitter:creator" content="@ShiroKazane" />
+		<meta name="twitter:title" content="ShiroAPI - Dashboard" />
+		<meta
+			name="twitter:description"
+			content="Made with &#10084; by ShiroKazane." />
+		<meta name="twitter:image" content="/image/c9XJcP-w0n9ls7E" />
+		<style>
+			@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+			body {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: 'Poppins', sans-serif;
+				background: #2f3136;
+				max-height: 100vh;
+				padding: 20vh 0;
+				text-align: center;
+				display: flex;
+
+			}
+
+			.container {
+				height: 470px;
+				width: 350px;
+				overflow: hidden;
+				padding: 0;
+				margin: 0 auto;
+				border-radius: 5px;
+				transition: all 0.3s ease-in-out;
+				background: #36393f;
+			}
+
+			.container .wrapper img {
+				position: relative;
+				z-index: 20;
+				border-radius: 50%;
+				display: block;
+				height: 200px;
+				width: 200px;
+				border: 5px solid #fffafa;
+				object-fit: cover;
+				margin: 20px auto;
+				transition: all 0.3s ease;
+			}
+
+			.container:hover .wrapper img.active {
+				height: 470px;
+				width: 350px;
+				margin: 0px auto;
+				border: none;
+				border-radius: 5px;
+			}
+
+			.wrapper .title {
+				color: #fffafa;
+				font-size: 30px;
+				font-weight: 500;
+				padding: 10px;
+				line-height: 25px;
+			}
+
+			.wrapper .discriminator {
+				color: #a3a6aa;
+				font-size: 17px;
+				line-height: 0px;
+				margin: 10px 0;
+			}
+
+			.content {
+				color: #fffafa;
+				font-size: 17px;
+				margin-top: 10px;
+				padding: 1px 20px 10px 20px!important;
+			}
+
+			.content .buttons {
+				display: flex;
+			}
+
+			.buttons .btn {
+				height: 40px;
+				width: 150px;
+				margin: 0 5px;
+			}
+
+			.buttons .btn button {
+				height: 100%;
+				width: 100%;
+				background: #6370f4;
+				color: #fffafa;
+				border: none;
+				outline: none;
+				cursor: pointer;
+				font-size: 17px;
+				font-weight: 500;
+				border-radius: 5px;
+				transition: all 0.3s;
+			}
+
+			.btn button:hover {
+				background: rgba(99, 112, 244, .76);
+				color: rgba(255, 250, 250, .76)
+
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="wrapper">
+				<a href="#">
+					<img src="<?= avatar ?>" alt="<?= username ?>'s Avatar">
+				</a>
+				<div class="title"><?= username ?></div>
+				<div class="discriminator">#<?= discriminator ?></div>
+				<div class="content">
+					<p>Okaeri masutā,<br>dokoheikuno?</p>
+					<div class="buttons">
+						<div class="btn">
+							<a href="/_dir/">
+								<button>Directory</button>
+							</a>
+						</div>
+						<div class="btn">
+							<a href="/upload">
+								<button>Upload</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			const img = document.querySelector('img');
+			img.onclick = function() {
+				this.classList.toggle('active');
+			}
+		</script>
+	</body>
+</html>

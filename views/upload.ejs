@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ShiroAPI - <?= title ?></title>
+		<meta name="title" content="ShiroAPI - <?= title ?>" />
+		<meta name="theme-color" content="currentColor" />
+		<meta name="description" content="Made with &#10084; by ShiroKazane." />
+		<meta
+			name="keywords"
+			content="shiroapi, shiro api, shirokazane, rest api, restful api, image, neko" />
+		<meta name="author" content="ShiroKazane" />
+		<meta name="url" content="api.shirokazane.my.id<?= url ?>" />
+		<meta name="og:title" content="ShiroAPI - <?= title ?>" />
+		<meta name="og:type" content="website" />
+		<meta name="og:url" content="api.shirokazane.my.id<?= url ?>" />
+		<meta name="og:image" content="/image/c9XJcP-w0n9ls7E" />
+		<meta name="og:site_name" content="ShiroAPI" />
+		<meta name="og:description" content="Made with &#10084; by ShiroKazane." />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="api.shirokazane.my.id<?= url ?>" />
+		<meta name="twitter:creator" content="@ShiroKazane" />
+		<meta name="twitter:title" content="ShiroAPI - <?= title ?>" />
+		<meta
+			name="twitter:description"
+			content="Made with &#10084; by ShiroKazane." />
+		<meta name="twitter:image" content="/image/c9XJcP-w0n9ls7E" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+		<style>
+            @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+				font-family: 'Poppins', sans-serif;
+            }
+
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                background: #2f3136;
+            }
+
+            ::selection {
+                color: #fffafa;
+                background: #2f3136;
+            }
+
+            .wrapper {
+                width: 430px;
+                background: #36393f;
+                border-radius: 5px;
+                padding: 30px;
+            }
+
+            .wrapper header {
+                color: #fffafa;
+                font-size: 27px;
+                font-weight: 600;
+                text-align: center;
+            }
+
+            .wrapper form {
+                height: 167px;
+                display: flex;
+                cursor: pointer;
+                margin: 30px 0;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                border-radius: 5px;
+                border: 2px dashed #fffafa;
+            }
+
+            form :where(i, p) {
+                color: #a3a6aa;
+            }
+
+            form i {
+                font-size: 50px;
+            }
+
+            form p {
+                margin-top: 15px;
+                font-size: 16px;
+                font-weight: 400;
+            }
+
+            section .row {
+                margin-bottom: 10px;
+                background: #2c2f33;
+                list-style: none;
+                padding: 15px 20px;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            section .row i {
+                color: #fffafa;
+                font-size: 30px;
+            }
+
+            section .details span {
+                color: #fff;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            .progress-area .row .content {
+                width: 100%;
+                margin-left: 15px;
+            }
+
+            .progress-area .details {
+                display: flex;
+                align-items: center;
+                margin-bottom: 7px;
+                justify-content: space-between;
+            }
+
+            .progress-area .content .progress-bar {
+                height: 6px;
+                width: 100%;
+                margin-bottom: 4px;
+                background: #fffafa;
+                border-radius: 30px;
+            }
+
+            .content .progress-bar .progress {
+                height: 100%;
+                width: 0%;
+                background: #6370f4;
+                border-radius: inherit;
+            }
+
+            .uploaded-area {
+                max-height: 232px;
+                overflow-y: scroll;
+            }
+
+            .uploaded-area.onprogress {
+                max-height: 150px;
+            }
+
+            .uploaded-area::-webkit-scrollbar {
+                width: 0px;
+            }
+
+            .uploaded-area .row .content {
+                display: flex;
+                align-items: center;
+            }
+
+            .uploaded-area .row .details {
+                display: flex;
+                margin-left: 15px;
+                flex-direction: column;
+            }
+
+            .uploaded-area .row .details .size {
+                color: #a3a6aa;
+                font-size: 11px;
+                font-weight: 400
+            }
+
+            .uploaded-area i.fa-check {
+                font-size: 16px;
+            }
+		</style>
+	</head>
+	<body>
+		<div class="wrapper">
+            <header><?= title ?></header>
+            <form enctype="multipart/form-data">
+                <input type="file" name="image" class="image-input" accept="image/*" hidden>
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Browse Image to Upload</p>
+            </form>
+            <section class="progress-area"></section>
+            <section class="uploaded-area"></section>
+        </div>
+        <script>
+            const form = document.querySelector('form'),
+            imageInput = document.querySelector('.image-input'),
+            progressArea = document.querySelector('.progress-area'),
+            uploadedArea = document.querySelector('.uploaded-area');
+
+            form.addEventListener('click', () => {
+                imageInput.click();
+            });
+
+            imageInput.onchange = ({target})=>{
+                let image = target.files[0];
+                if (image) {
+                    let imageName = image.name;
+                    if(imageName.length >= 12) {
+                        let splitName = imageName.split('.');
+                        imageName = splitName[0].substring(0, 13) + '... .' + splitName[1];
+                    }
+                    uploadImage(imageName);
+                }
+            }
+
+            function uploadImage(name) {
+                let xhr = new XMLHttpRequest();
+                xhr.open('POST', '<?= url ?>');
+                xhr.setRequestHeader('Authorization', 'Bearer <?= token ?>')
+                xhr.upload.addEventListener('progress', ({loaded, total}) => {
+                    let imageLoaded = Math.floor((loaded / total) * 100);
+                    let imageTotal = Math.floor(total / 1000);
+                    let imageSize;
+                    (imageTotal < 1024) ? imageSize = imageTotal + ' KB' : imageSize = (loaded / (1024*1024)).toFixed(2) + ' MB';
+                    let progressHTML = `<li class="row">
+                                            <i class="fas fa-file-alt"></i>
+                                            <div class="content">
+                                                <div class="details">
+                                                    <span class="name">${name} • Uploading</span>
+                                                    <span class="percent">${imageLoaded}%</span>
+                                                </div>
+                                                <div class="progress-bar">
+                                                    <div class="progress" style="width: ${imageLoaded}%"</div>
+                                                </div>
+                                            </div>
+                                        </li>`;
+                    uploadedArea.classList.add('onprogress');
+                    progressArea.innerHTML = progressHTML;
+                    if (loaded === total) {
+                        progressArea.innerHTML = '';
+                        let uploadedHTML = `<li class="row">
+                                                <div class="content upload">
+                                                    <i class="fas fa-file-alt"></i>
+                                                    <div class="details">
+                                                        <span class="name">${name} • Uploaded</span>
+                                                        <span class="size">${imageSize}</span>
+                                                    </div>
+                                                </div>
+                                                <i class="fas fa-check"></i>
+                                            </li>`;
+                        uploadedArea.classList.remove('onprogress');
+                        uploadedArea.insertAdjacentHTML('afterbegin', uploadedHTML)
+                    }
+                });
+                let data = new FormData(form);
+                xhr.send(data);
+            }
+        </script>
+	</body>
+</html>

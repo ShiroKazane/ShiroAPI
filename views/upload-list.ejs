@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ShiroAPI - Upload List</title>
+		<meta name="title" content="ShiroAPI - Upload List" />
+		<meta name="theme-color" content="currentColor" />
+		<meta name="description" content="Made with &#10084; by ShiroKazane." />
+		<meta
+			name="keywords"
+			content="shiroapi, shiro api, shirokazane, rest api, restful api, image, neko" />
+		<meta name="author" content="ShiroKazane" />
+		<meta name="url" content="api.shirokazane.my.id/upload" />
+		<meta name="og:title" content="ShiroAPI - Upload List" />
+		<meta name="og:type" content="website" />
+		<meta name="og:url" content="api.shirokazane.my.id/upload" />
+		<meta name="og:image" content="/image/c9XJcP-w0n9ls7E" />
+		<meta name="og:site_name" content="ShiroAPI" />
+		<meta name="og:description" content="Made with &#10084; by ShiroKazane." />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="api.shirokazane.my.id/upload" />
+		<meta name="twitter:creator" content="@ShiroKazane" />
+		<meta name="twitter:title" content="ShiroAPI - Upload List" />
+		<meta
+			name="twitter:description"
+			content="Made with &#10084; by ShiroKazane." />
+		<meta name="twitter:image" content="/image/c9XJcP-w0n9ls7E" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+		<style>
+			@import url('https://fonts.googleApi.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: 'Poppins', sans-serif;
+			}
+			body {
+                background: #2f3136;
+                max-height: 100vh;
+			}
+			::selection {
+                color: #fff;
+				background: #2f3136;
+			}
+			.wrapper {
+                width: 430px;
+				margin: 25vh auto;
+			}
+			.select-btn,
+			li {
+				display: flex;
+				align-items: center;
+				cursor: pointer;
+			}
+			.select-btn {
+				height: 65px;
+				padding: 0 20px;
+				font-size: 22px;
+				background: #fff;
+				border-radius: 7px;
+				justify-content: space-between;
+				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+			}
+			.select-btn i {
+				font-size: 31px;
+				transition: transform 0.3s linear;
+			}
+			.wrapper.active .select-btn i {
+				transform: rotate(-180deg);
+			}
+			.content {
+				display: none;
+				padding: 20px;
+				margin-top: 15px;
+				background: #fff;
+				border-radius: 7px;
+				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+			}
+			.wrapper.active .content {
+				display: block;
+			}
+			.content .search {
+				position: relative;
+			}
+			.search i {
+				top: 50%;
+				left: 15px;
+				color: #999;
+				font-size: 20px;
+				pointer-events: none;
+				transform: translateY(-50%);
+				position: absolute;
+			}
+			.search input {
+				height: 50px;
+				width: 100%;
+				outline: none;
+				font-size: 17px;
+				border-radius: 5px;
+				padding: 0 20px 0 43px;
+				border: 1px solid #b3b3b3;
+			}
+			.search input:focus {
+				padding-left: 42px;
+				border: 2px solid #4285f4;
+			}
+			.search input::placeholder {
+				color: #bfbfbf;
+			}
+			.content .options {
+				margin-top: 10px;
+				max-height: 250px;
+				overflow-y: auto;
+				padding-right: 7px;
+			}
+			.options::-webkit-scrollbar {
+				width: 7px;
+			}
+			.options::-webkit-scrollbar-track {
+				background: #f1f1f1;
+				border-radius: 25px;
+			}
+			.options::-webkit-scrollbar-thumb {
+				background: #ccc;
+				border-radius: 25px;
+			}
+			.options::-webkit-scrollbar-thumb:hover {
+				background: #b3b3b3;
+			}
+			.options li {
+				height: 50px;
+				padding: 0 13px;
+				font-size: 21px;
+			}
+			.options li:hover,
+			li.selected {
+				border-radius: 5px;
+				background: #f2f2f2;
+			}
+
+            button {
+                position: relative;
+                float: right;
+                margin-top: 10px;
+                width: 150px;
+                height: 65px;
+                background: #6370f4;
+				color: #fffafa;
+				border: none;
+				outline: none;
+				cursor: pointer;
+				font-size: 22px;
+				font-weight: 500;
+				border-radius: 5px;
+            }
+		</style>
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class="select-btn">
+				<span>Select API</span>
+				<i class="fa fa-angle-down"></i>
+			</div>
+			<div class="content">
+				<div class="search">
+					<i class="fa fa-search"></i>
+					<input spellcheck="false" type="text" placeholder="Search" />
+				</div>
+				<ul class="options"></ul>
+			</div>
+            <button>
+                <a>Enter</a>
+            </button>
+		</div>
+        
+
+		<script>
+			const wrapper = document.querySelector('.wrapper'),
+				selectBtn = wrapper.querySelector('.select-btn'),
+				searchInp = wrapper.querySelector('input'),
+				options = wrapper.querySelector('.options'),
+                button = wrapper.querySelector('button');
+                
+                const str = '<?= content ?>';
+                const fixed = str.replace(/&#34;/g, '"');
+                const arr = JSON.parse(fixed);
+                const contents = arr;
+
+			function addApi(selectedApi) {
+				options.innerHTML = '';
+				contents.forEach((api) => {
+					let isSelected = api == selectedApi ? 'selected' : '';
+					let li = `<li onclick="updateName(this)" class="${isSelected}">${api}</li>`;
+					options.insertAdjacentHTML('beforeend', li);
+				});
+			}
+			addApi();
+			function updateName(selectedLi) {
+				searchInp.value = '';
+				addApi(selectedLi.innerText);
+				wrapper.classList.remove('active');
+				selectBtn.firstElementChild.innerText = selectedLi.innerText;
+			}
+
+			searchInp.addEventListener('keyup', () => {
+				let arr = [];
+				let searchWord = searchInp.value.toLowerCase();
+				arr = contents
+					.filter((data) => {
+						return data.toLowerCase().startsWith(searchWord);
+					})
+					.map((data) => {
+						let isSelected =
+							data == selectBtn.firstElementChild.innerText ? 'selected' : '';
+						return `<li onclick="updateName(this)" class="${isSelected}">${data}</li>`;
+					})
+					.join('');
+				options.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! API not found</p>`;
+			});
+            
+            button.onclick = function() {
+                if (!contents.includes(selectBtn.firstElementChild.innerText.toString())) return;
+                window.location.assign(`/upload/${selectBtn.firstElementChild.innerText.toLowerCase()}`)
+            }
+            
+            selectBtn.addEventListener('click', () =>
+            wrapper.classList.toggle('active')
+            );
+		</script>
+	</body>
+    </html>

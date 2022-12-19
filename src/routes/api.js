@@ -5,33 +5,38 @@ const path = require('path');
 const authToken = require('../middleware/authToken');
 const requestCount = require('../middleware/requestCount');
 
-router.get('/', (req, res, next) => {
-	const list = fs
-		.readdirSync('./src/public')
-		.filter((dir) => !/(^|\/)\_[^\/\_]/g.test(dir));
-	res.status(200).render('plain', {
-		title: req.originalUrl,
-		content: `["${list.join('","')}"]`
-	});
-});
+router.get('/', (req, res) => {
+	try {
+		const directories = fs.readdirSync('./src/public');
+		const list = directories.filter((dir) => !/(^|\/)\_[^\/\_]/g.test(dir));
 
-router.get('/:id', authToken, requestCount, (req, res, next) => {
-	let param = './src/public/' + req.params.id;
-	if (fs.existsSync(param)) {
-		let requiredCount = 1;
-		let files = fs.readdirSync(param);
-
-		while (requiredCount-- && files.length) {
-			let length = files.length;
-			let index = Math.floor(Math.random() * length);
-			let result = files.splice(index, 1);
-			res.status(200).json({
-				url: `http://${req.hostname}/image/${result.toString().split('.')[0]}?format=${path.extname(result.toString()).slice(1)}`
-			});
-		}
-	} else {
-		res.status(404).render('4xx/404');
+		res.status(200).json(list)
+	} catch (err) {
+		console.error(err);
+		res.status(500).render('5xx/500');
 	}
 });
+
+
+router.get('/:id', authToken, requestCount, async (req, res) => {
+	try {
+		const param = `./src/public/${req.params.id}`;
+		if (!fs.existsSync(param)) {
+			return res.status(404).render('4xx/404');
+		}
+
+		const files = fs.readdirSync(param);
+		const index = Math.floor(Math.random() * files.length);
+		const [fileName] = files[index].split('.');
+		const fileExt = path.extname(files[index]).slice(1);
+		const imageUrl = `http://${req.hostname}/image/${fileName}?format=${fileExt}`;
+
+		res.status(200).json({ url: imageUrl });
+	} catch (err) {
+		console.error(err);
+		res.status(500).render('5xx/500');
+	}
+});
+
 
 module.exports = router;

@@ -3,35 +3,43 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 const formatImage = require('../middleware/formatImage');
+
 const extensions = ['jpeg', 'jpg', 'webp', 'png'];
+const publicDirectory = './src/public';
+const tempDirectory = './src/temp';
 
 router.get('/:id', async (req, res) => {
 	const { format, download } = req.query;
-	const imageFolders = fs.readdirSync('./src/public');
+	const { id } = req.params;
 
+	const imageFolders = fs.readdirSync(publicDirectory);
 	for (const folder of imageFolders) {
 		const imageFiles = fs
-			.readdirSync(`./src/public/${folder}`)
+			.readdirSync(path.resolve(publicDirectory, folder))
 			.filter((file) => extensions.some((ext) => file.endsWith(ext)));
 
-		for (let file of imageFiles) {
-			if ( file.slice(0, 15) === req.params.id || file.slice(0, 15) === req.params.id.slice(0, 15)) {
-				const image = path.resolve(path.resolve(`./src/public/${folder}/${file}`));
-				const temp = path.resolve(`./src/temp/${file.slice(0, 15)}.${format}`);
+		for (const file of imageFiles) {
+			const imagePath = path.resolve(publicDirectory, folder, file);
+			const tempPath = path.resolve(tempDirectory, `${id}.${format}`);
+			if (id === file) {
+				return res.sendFile(imagePath);
+			}
+			const [fileId, fileExtension] = file.split('.');
+			if (fileId === id) {
 				if (download === 'true') {
-					return res.download(image, `${file}`);
+					return res.download(imagePath, file);
 				}
-				if (format && format !== file.slice(16)) {
-					if (fs.existsSync(temp)) {
-						return res.sendFile(temp);
+				if (format && fileExtension !== format) {
+					if (fs.existsSync(tempPath)) {
+						return res.sendFile(tempPath);
 					}
 					if (!extensions.includes(format)) {
 						return res.status(404).render('4xx/404');
 					}
-					await formatImage(image, format, temp);
-					return res.sendFile(temp);
+					await formatImage(imagePath, format, tempPath);
+					return res.sendFile(tempPath);
 				}
-				return res.sendFile(image);
+				return res.sendFile(imagePath);
 			}
 		}
 	}
