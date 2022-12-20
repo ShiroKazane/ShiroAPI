@@ -146,14 +146,11 @@
             .uploaded-area {
                 max-height: 232px;
                 overflow-y: scroll;
+                padding-right: 7px;
             }
 
             .uploaded-area.onprogress {
                 max-height: 150px;
-            }
-
-            .uploaded-area::-webkit-scrollbar {
-                width: 0px;
             }
 
             .uploaded-area .row .content {
@@ -203,9 +200,12 @@
                 let image = target.files[0];
                 if (image) {
                     let imageName = image.name;
-                    if(imageName.length > 12) {
-                        let splitName = imageName.split('.');
-                        imageName = splitName[0].substring(0, 13) + '... .' + splitName[1];
+                    let splitName = imageName.split('.');
+                    let fileExtension = splitName.pop();
+                    let fileName = splitName.join('.');
+
+                    if(fileName.length > 12) {
+                        imageName = fileName.substring(0, 13) + '... .' + fileExtension;
                     }
                     uploadImage(imageName);
                 }
