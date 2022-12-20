@@ -27,7 +27,9 @@ if (!fs.existsSync('./src/temp')) {
 app.set('view engine', 'ejs');
 app.disable('x-powered-by');
 app.use(favicon('./src/assets/favicon.ico'));
-app.use(morgan('dev'));
+app.use(morgan('dev', {
+	skip: (req, res) => req.path === '/'
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
