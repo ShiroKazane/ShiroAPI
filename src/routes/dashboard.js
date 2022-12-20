@@ -1,7 +1,6 @@
 const express = require('express');
 const router = new express.Router();
-const discordAuth = require('../middleware/discordAuth')
-const toProperCase = require('../middleware/toProperCase')
+const discordAuth = require('../middleware/discordAuth');
 
 router.get('/', discordAuth, (req, res) => {
 	const { id, avatar, username, discriminator } = req.user;
