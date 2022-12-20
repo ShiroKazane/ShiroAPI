@@ -55,7 +55,7 @@
             }
 
             .wrapper {
-                width: 430px;
+                width: 370px;
                 background: #36393f;
                 border-radius: 5px;
                 padding: 30px;
@@ -112,7 +112,7 @@
 
             section .details span {
                 color: #fff;
-                font-size: 14px;
+                font-size: 11px;
                 font-weight: 600;
             }
 
@@ -146,7 +146,6 @@
             .uploaded-area {
                 max-height: 232px;
                 overflow-y: scroll;
-                padding-right: 7px;
             }
 
             .uploaded-area.onprogress {
@@ -170,7 +169,7 @@
 
             .uploaded-area .row .details .size {
                 color: #a3a6aa;
-                font-size: 11px;
+                font-size: 9px;
                 font-weight: 400
             }
 
@@ -208,7 +207,7 @@
                     let fileExtension = splitName.pop();
                     let fileName = splitName.join('.');
 
-                    if(fileName.length > 12) {
+                    if(fileName.length > 13) {
                         imageName = fileName.substring(0, 13) + '... .' + fileExtension;
                     }
                     uploadImage(imageName);
