@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const User = require('../models/users');
 const masterToken = require('../middleware/masterToken');
-const { whitelists } = require('../whitelists.json');
+const { whitelists } = require('../configs/whitelists.json');
 
 router.get('/login', (req, res) => {
 	try {

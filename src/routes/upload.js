@@ -32,8 +32,13 @@ router.get('/:id', discordAuth, upload.single('image'), (req, res, next) => {
 	if (!fs.existsSync(dest)) {
 		return res.status(404).render('4xx/404');
 	}
+	const params = { value: req.params.id };
+	if (params.value.includes('_')) {
+		params.value += '*';
+		params.value = params.value.replace(/_/g, '');
+	}
 	res.render('upload', {
-		title: `Upload ${toProperCase(req.params.id)}`,
+		title: `Upload ${toProperCase(params.value)}`,
 		url: req.originalUrl,
 		token: process.env.SHIRO_API_KEY
 	});

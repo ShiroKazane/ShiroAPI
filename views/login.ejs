@@ -26,6 +26,7 @@
 			name="twitter:description"
 			content="Made with &#10084; by ShiroKazane." />
 		<meta name="twitter:image" content="/image/c9XJcP-w0n9ls7E" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 		<style>
 			@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
 			* {
@@ -42,6 +43,12 @@
 				justify-content: center;
 				min-height: 100vh;
 				background: #2f3136;
+				cursor: default;
+				-webkit-user-select: none;
+				-webkit-touch-callout: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
 			}
 
 			.wrapper {
@@ -70,16 +77,28 @@
             }
 
 			button {
+				display: flex;
+				align-items: center;
 				margin: 20px auto 5px;
-				width: 75%;
+				width: 80%;
 				border: none;
 				outline: none;
 				color: #fffafa;
 				cursor: pointer;
 				font-size: 16px;
-				padding: 12px 14px;
+				padding: 12px;
 				border-radius: 5px;
 				background: #6370f4;
+			}
+
+			button:hover {
+				background: rgba(99, 112, 244, .76);
+				color: rgba(255, 250, 250, .76)
+			}
+
+			button i {
+				font-size: 20px;
+				padding-right: 10px;
 			}
 		</style>
 	</head>
@@ -90,7 +109,7 @@
 				<p>Please login to access this page.</p>
 			</header>
 			<button onclick="window.location.href='/auth/discord'">
-				Login with Discord
+				<i class="fa-brands fa-discord"></i>Login with Discord
 			</button>
 		</div>
 	</body>

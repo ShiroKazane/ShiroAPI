@@ -26,6 +26,7 @@
 			name="twitter:description"
 			content="Made with &#10084; by ShiroKazane." />
 		<meta name="twitter:image" content="/image/c9XJcP-w0n9ls7E" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 		<style>
 			@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
 			@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
@@ -35,8 +36,9 @@
 				box-sizing: border-box;
 				font-family: 'Poppins', sans-serif;
 			}
-
+			
 			section {
+				cursor: default;
 				position: relative;
 				width: 100%;
 				min-height: 100vh;
@@ -44,6 +46,11 @@
 				justify-content: center;
 				align-items: center;
 				overflow: hidden;
+				-webkit-user-select: none;
+				-webkit-touch-callout: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
 			}
 
 			section header {
@@ -203,6 +210,20 @@
 				letter-spacing: 2px;
 				font-weight: 500;
 				font-size: 12px;
+				cursor: pointer;
+			}
+
+			section footer .fa-stack {
+				position: absolute;
+				bottom: 40px;
+				left: 100px;
+				display: flex;
+				z-index: 100;
+				margin: 5px;
+				transition: 0.5s;
+				font-size: 15px;
+				color: #242424;
+				cursor: help;
 			}
 
 			section .navigation {
@@ -285,16 +306,13 @@
 			<div class="content">
 				<h2>Elaina...<br /><span>Best Waifu.</span></h2>
 			</div>
-			<video
-				src="/_private/UiaVA6gh-eulmP4.mp4"
-				poster="/image/c9XJcP-w0n9ls7E"
-				autoplay
-				muted
-				loop></video>
+			<video src="/_shiro/UiaVA6gh-eulmP4.mp4" poster="/image/c9XJcP-w0n9ls7E" autoplay muted loop></video>
 			<footer>
-				<a href="https://github.com/ShiroKazane" target="_blank"
-					>&copy; 2022 ShiroKazane</a
-				>
+				<span class="paw fa-stack" style="--fa-inverse: #fffafa">
+					<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+					<i class="fa fa-paw fa-stack-1x"></i>
+				</span>
+				<a href="https://github.com/ShiroKazane" target="_blank">&copy; 2022 ShiroKazane</a>
 			</footer>
 			<ul class="navigation">
 				<li style="--i: 1"><a href="/">Home</a></li>
@@ -308,6 +326,10 @@
 			document.querySelector('.toggle').onclick = function () {
 				document.querySelector('.toggle').classList.toggle('active');
 				document.querySelector('section').classList.toggle('active');
+			};
+
+			document.querySelector('.paw').onclick = function () {
+				window.location.assign('/dashboard');
 			};
 		</script>
 	</body>

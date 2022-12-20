@@ -12,11 +12,12 @@ const mongoose = require('mongoose');
 const color = require('cli-color');
 const Table = require('cli-table');
 const rimraf = require('rimraf');
-const toProperCase = require('./middleware/toProperCase');
-const discordAuth = require('./middleware/discordAuth');
 const passport = require('passport');
 const session = require('express-session');
 const DiscordStrategy = require('passport-discord').Strategy;
+const toProperCase = require('./middleware/toProperCase');
+const discordAuth = require('./middleware/discordAuth');
+const { logs } = require('./configs/logs.json')
 const app = express();
 ejs.delimiter = '?';
 
@@ -28,12 +29,14 @@ app.set('view engine', 'ejs');
 app.disable('x-powered-by');
 app.use(favicon('./src/assets/favicon.ico'));
 app.use(morgan('dev', {
-	skip: (req, res) => req.path === '/'
+	skip: (req, res) => logs.includes(req.path)
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
 app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, callbackURL: '/auth/discord/callback', scope: ['identify', 'email'] }, function (accessToken, refreshToken, profile, cb) {
 	return cb(null, profile);
 }));
@@ -43,8 +46,6 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user, done) {
 	done(null, user);
 });
-app.use(passport.initialize());
-app.use(passport.session());
 app.use('/_dir', discordAuth, express.static('src/public'), serveIndex('src/public', { icons: true, hidden: true, view: 'details', stylesheet: 'src/assets/directory.css' }));
 
 const routeFiles = fs
