@@ -153,6 +153,10 @@
                 max-height: 150px;
             }
 
+            .uploaded-area::-webkit-scrollbar {
+				width: 0;
+			}
+
             .uploaded-area .row .content {
                 display: flex;
                 align-items: center;
@@ -214,7 +218,7 @@
             function uploadImage(name) {
                 let xhr = new XMLHttpRequest();
                 xhr.open('POST', '<?= url ?>');
-                xhr.setRequestHeader('Authorization', 'Bearer <?= token ?>')
+                // xhr.setRequestHeader('Authorization', 'Bearer <?= token ?>')
                 xhr.upload.addEventListener('progress', ({loaded, total}) => {
                     let imageLoaded = Math.floor((loaded / total) * 100);
                     let imageTotal = Math.floor(total / 1000);
