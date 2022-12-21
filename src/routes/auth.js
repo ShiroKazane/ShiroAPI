@@ -91,15 +91,8 @@ router.get('/discord', (req, res, next) => {
 });
 
 
-router.get('/discord/callback', async (req, res) => {
-	try {
-		await passport.authenticate('discord', { failureRedirect: '/auth/login' });
-		res.status(200).redirect('/dashboard');
-	} catch (error) {
-		console.error(error);
-		res.status(500).send('Internal server error');
-	}
+router.get('/discord/callback', passport.authenticate('discord', { failureRedirect: '/auth/login' }), function(req, res) {
+	res.status(200).redirect('/dashboard');
 });
-
 
 module.exports = router;
