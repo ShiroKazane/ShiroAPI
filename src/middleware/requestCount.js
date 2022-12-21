@@ -1,6 +1,6 @@
 const Request = require('../models/requests');
 
-module.exports = async (next) => {
+module.exports = async (req, res, next) => {
 	await Request.findByIdAndUpdate(
 		'63993c791dabad08e2597f57',
 		{
