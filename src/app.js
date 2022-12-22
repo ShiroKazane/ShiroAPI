@@ -14,7 +14,6 @@ const Table = require('cli-table');
 const rimraf = require('rimraf');
 const passport = require('passport');
 const session = require('express-session');
-const helmet = require('helmet');
 const DiscordStrategy = require('passport-discord').Strategy;
 const toProperCase = require('./middleware/toProperCase');
 const discordAuth = require('./middleware/discordAuth');
@@ -34,12 +33,6 @@ app.use(morgan('dev', {
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-	helmet({
-		contentSecurityPolicy: false,
-		crossOriginResourcePolicy: { policy: 'cross-origin' }
-	})
-);
 app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
 app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
