@@ -94,8 +94,6 @@ router.get('/discord', (req, res, next) => {
 	passport.authenticate('discord', options)(req, res, next);
 });
 
-
-
 router.get('/discord/callback', passport.authenticate('discord', { failureRedirect: '/auth/login', successRedirect: '/dashboard' }), function(req, res) {
 	res.status(200).redirect(req.session.returnTo || '/dashboard');
 });
