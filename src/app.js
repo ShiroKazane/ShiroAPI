@@ -6,15 +6,15 @@ const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const serveIndex = require('serve-index');
 const morgan = require('morgan');
+const session = require('express-session');
+const passport = require('passport');
+const DiscordStrategy = require('passport-discord').Strategy;
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 const color = require('cli-color');
 const Table = require('cli-table');
 const rimraf = require('rimraf');
-const passport = require('passport');
-const session = require('express-session');
-const DiscordStrategy = require('passport-discord').Strategy;
 const toProperCase = require('./middleware/toProperCase');
 const discordAuth = require('./middleware/discordAuth');
 const { logs } = require('./configs/logs.json')
@@ -31,21 +31,22 @@ app.use(favicon('./src/assets/favicon.ico'));
 app.use(morgan('dev', {
 	skip: (req, res) => logs.includes(req.path)
 }));
+app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: false }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
-app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, callbackURL: '/auth/discord/callback', scope: ['identify', 'email'] }, (accessToken, refreshToken, profile, cb) => {
 	return cb(null, profile);
 }));
+app.use(passport.authenticate('session'));
 passport.serializeUser(function (user, done) {
 	done(null, user);
 });
 passport.deserializeUser(function (user, done) {
 	done(null, user);
 });
+app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
 app.use('/_dir', discordAuth, express.static('src/public'), serveIndex('src/public', { icons: true, hidden: true, view: 'details', stylesheet: 'src/assets/directory.css' }));
 
 const routeFiles = fs
