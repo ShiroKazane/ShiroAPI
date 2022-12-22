@@ -34,16 +34,11 @@ app.use(morgan('dev', {
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(helmet());
 app.use(
-	helmet.contentSecurityPolicy({
-		directives: {
-			defaultSrc: ["'self'"],
-			imgSrc: ["'self'", 'https://cdn.discordapp.com']
-		}
+	helmet({
+		contentSecurityPolicy: false
 	})
 );
-
 app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
 app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
