@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
 	helmet({
 		contentSecurityPolicy: false,
-		crossOriginResourcePolicy: false
+		crossOriginResourcePolicy: { policy: 'cross-origin' }
 	})
 );
 app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
