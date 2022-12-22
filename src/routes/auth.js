@@ -87,12 +87,17 @@ router.delete('/delete', masterToken, async (req, res) => {
 router.get('/discord', (req, res, next) => {
 	const { protocol, hostname } = req;
 	const callbackURL = `${protocol}://${hostname}/auth/discord/callback`;
-	passport.authenticate('discord', { callbackURL })(req, res, next);
+	const options = {
+		callbackURL,
+		scope: ['identify', 'email']
+	};
+	passport.authenticate('discord', options)(req, res, next);
 });
 
 
-router.get('/discord/callback', passport.authenticate('discord', { failureRedirect: '/auth/login' }), function(req, res) {
-	res.status(200).redirect('/dashboard');
+
+router.get('/discord/callback', passport.authenticate('discord', { failureRedirect: '/auth/login', successRedirect: '/dashboard' }), function(req, res) {
+	res.status(200).redirect(req.session.returnTo || '/dashboard');
 });
 
 module.exports = router;

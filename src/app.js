@@ -39,7 +39,7 @@ app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 
 app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, callbackURL: '/auth/discord/callback', scope: ['identify', 'email'] }, function (accessToken, refreshToken, profile, cb) {
+passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, callbackURL: '/auth/discord/callback', scope: ['identify', 'email'] }, (accessToken, refreshToken, profile, cb) => {
 	return cb(null, profile);
 }));
 passport.serializeUser(function (user, done) {
