@@ -36,7 +36,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
 	helmet({
-		contentSecurityPolicy: false
+		contentSecurityPolicy: false,
+		crossOriginResourcePolicy: false
 	})
 );
 app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
