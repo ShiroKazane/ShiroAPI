@@ -1,6 +1,6 @@
 {
   "name": "shiro-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Made with <3",
   "main": "src/server.js",
   "scripts": {
