@@ -89,7 +89,7 @@ app.post('/payload', (req, res) => {
 	if (computedSignature !== signature) {
 		return res.status(401).render('4xx/401');
 	}
-	
+
 	res.sendStatus(200);
 
 	exec('git pull', (error, stdout, stderr) => {
@@ -99,15 +99,6 @@ app.post('/payload', (req, res) => {
 
 		console.log(stdout);
 		console.log(stderr);
-
-		exec('kill 1', (error, stdout, stderr) => {
-			if (error) {
-				return console.error(error)
-			}
-
-			console.log(stdout);
-			console.log(stderr);
-		});
 	});
 });
 
