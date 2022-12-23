@@ -35,9 +35,9 @@ function setupDAuth() {
 		return cb(null, profile);
 	}));
 	
+	app.use(passport.authenticate('session'));
 	app.use(passport.initialize());
 	app.use(passport.session());
-	app.use(passport.authenticate('session'));
 
 	passport.serializeUser(function (user, done) {
 		done(null, user);
@@ -72,6 +72,10 @@ for (const file of routeFiles) {
 
 app.get('/', (req, res) => {
 	res.render('index');
+});
+
+app.get('/status', (req, res) => {
+	res.redirect('https://stats.uptimerobot.com/XYEOOI4gAQ');
 });
 
 app.post('/payload', (req, res) => {
