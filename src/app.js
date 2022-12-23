@@ -95,9 +95,16 @@ app.post('/payload', (req, res) => {
 			return console.error(error);
 		}
 
-		console.log(`stdout: ${stdout}`);
-		console.log(`stderr: ${stderr}`);
-		exec('repl restart');
+		console.log(stdout);
+		console.log(stderr);
+		exec('repl restart', (error, stdout, stderr) => {
+			if (error) {
+				return console.error(error)
+			}
+
+			console.log(stdout);
+			console.log(stderr);
+		});
 	});
 });
 
