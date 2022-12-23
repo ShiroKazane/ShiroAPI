@@ -16,9 +16,12 @@ const mongoose = require('mongoose');
 const color = require('cli-color');
 const Table = require('cli-table');
 const rimraf = require('rimraf');
+const crypto = require('crypto');
+const { exec } = require('child_process');
 const toProperCase = require('./middleware/toProperCase');
 const discordAuth = require('./middleware/discordAuth');
-const { logs } = require('./configs/logs.json')
+const { logs } = require('./configs/logs.json');
+const { stderr } = require('process');
 
 const app = express();
 ejs.delimiter = '?';
@@ -69,6 +72,32 @@ for (const file of routeFiles) {
 
 app.get('/', (req, res, next) => {
 	res.render('index');
+});
+
+app.post('/payload', (req, res, next) => {
+	const sign = req.headers['x-hub-signature'];
+	if (!sign) {
+		return res.status(400).render('4xx/400', {
+			message: 'Missing X-Hub-Signature header'
+		})
+	}
+
+	const hmac = crypto.createHmac('sha1', process.env.SECRET_KEY);
+	hmac.update(JSON.stringify(req.body));
+	const computedSign = `sha1=${hmac.digest('hex')}`;
+
+	if (computedSign !== sign) {
+		return res.status(401).render('4xx/401');
+	}
+
+	exec('git pull', (error, stdout, stderr) => {
+		if (error) {
+			return console.error(error);
+		}
+
+		console.log(`stdout: ${stdout}`);
+		console.log(`stderr: ${stderr}`);
+	});
 });
 
 app.all('*', (req, res, next) => {
