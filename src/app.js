@@ -70,13 +70,13 @@ for (const file of routeFiles) {
 	app.use(`/${file.split('.')[0]}`, routes);
 }
 
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
 	res.render('index');
 });
 
-app.post('/payload', (req, res, next) => {
-	const sign = req.headers['x-hub-signature'];
-	if (!sign) {
+app.post('/payload', (req, res) => {
+	const signature = req.headers['x-hub-signature'];
+	if (!signature) {
 		return res.status(400).render('4xx/400', {
 			message: 'Missing X-Hub-Signature header'
 		})
@@ -84,9 +84,9 @@ app.post('/payload', (req, res, next) => {
 
 	const hmac = crypto.createHmac('sha1', process.env.SECRET_KEY);
 	hmac.update(JSON.stringify(req.body));
-	const computedSign = `sha1=${hmac.digest('hex')}`;
+	const computedSignature = `sha1=${hmac.digest('hex')}`;
 
-	if (computedSign !== sign) {
+	if (computedSignature !== signature) {
 		return res.status(401).render('4xx/401');
 	}
 
@@ -100,7 +100,7 @@ app.post('/payload', (req, res, next) => {
 	});
 });
 
-app.all('*', (req, res, next) => {
+app.all('*', (req, res) => {
 	res.status(404).render('4xx/404');
 });
 
