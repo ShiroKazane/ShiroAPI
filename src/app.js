@@ -89,9 +89,10 @@ app.post('/payload', (req, res) => {
 	if (computedSignature !== signature) {
 		return res.status(401).render('4xx/401');
 	}
+	
+	res.sendStatus(200);
 
 	exec('git pull', (error, stdout, stderr) => {
-		res.sendStatus(200);
 		if (error) {
 			return console.error(error);
 		}
