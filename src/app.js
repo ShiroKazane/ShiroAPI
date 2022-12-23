@@ -97,7 +97,7 @@ app.post('/payload', (req, res) => {
 
 		console.log(`stdout: ${stdout}`);
 		console.log(`stderr: ${stderr}`);
-		exec('kill 1');
+		exec('repl restart');
 	});
 });
 
