@@ -97,7 +97,8 @@ app.post('/payload', (req, res) => {
 
 		console.log(stdout);
 		console.log(stderr);
-		exec('repl restart', (error, stdout, stderr) => {
+		
+		exec('kill 1', (error, stdout, stderr) => {
 			if (error) {
 				return console.error(error)
 			}
