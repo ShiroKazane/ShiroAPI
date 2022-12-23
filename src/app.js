@@ -91,13 +91,14 @@ app.post('/payload', (req, res) => {
 	}
 
 	exec('git pull', (error, stdout, stderr) => {
+		res.sendStatus(200);
 		if (error) {
 			return console.error(error);
 		}
 
 		console.log(stdout);
 		console.log(stderr);
-		
+
 		exec('kill 1', (error, stdout, stderr) => {
 			if (error) {
 				return console.error(error)
