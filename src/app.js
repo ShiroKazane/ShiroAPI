@@ -21,7 +21,6 @@ const { exec } = require('child_process');
 const toProperCase = require('./middleware/toProperCase');
 const discordAuth = require('./middleware/discordAuth');
 const { logs } = require('./configs/logs.json');
-const { stderr } = require('process');
 
 const app = express();
 ejs.delimiter = '?';
@@ -31,7 +30,7 @@ if (!fs.existsSync('./src/temp')) {
 }
 
 function setupDAuth() {
-	passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, callbackURL: `${process.env.CALLBACK_URL ? process.env.CALLBACK_URL : 'http://localhost'}/auth/discord/callback`, scope: ['identify', 'email'] }, (accessToken, refreshToken, profile, cb) => {
+	passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, scope: ['identify', 'email'] }, (accessToken, refreshToken, profile, cb) => {
 		return cb(null, profile);
 	}));
 	
@@ -72,10 +71,6 @@ for (const file of routeFiles) {
 
 app.get('/', (req, res) => {
 	res.render('index');
-});
-
-app.get('/status', (req, res) => {
-	res.redirect('https://stats.uptimerobot.com/XYEOOI4gAQ');
 });
 
 app.post('/payload', (req, res) => {
