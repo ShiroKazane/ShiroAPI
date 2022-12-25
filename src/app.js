@@ -30,11 +30,10 @@ if (!fs.existsSync('./src/temp')) {
 }
 
 function setupDAuth() {
-	passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, scope: ['identify', 'email'] }, (accessToken, refreshToken, profile, cb) => {
+	passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, callbackURL: `${process.env.CALLBACK_URL ? process.env.CALLBACK_URL : 'http://localhost'}/auth/discord/callback`, scope: ['identify', 'email'] }, (accessToken, refreshToken, profile, cb) => {
 		return cb(null, profile);
 	}));
 	
-	app.use(passport.authenticate('session'));
 	app.use(passport.initialize());
 	app.use(passport.session());
 
@@ -53,6 +52,7 @@ app.use(morgan('dev', {
 	skip: (req, res) => logs.includes(req.path)
 }));
 app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: false, maxAge: null }));
+app.use(passport.authenticate('session'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
