@@ -9,7 +9,7 @@ const serveIndex = require('serve-index');
 const morgan = require('morgan');
 const session = require('express-session');
 const passport = require('passport');
-const { Strategy: DiscordStrategy } = require('passport-discord');
+const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -19,7 +19,7 @@ const rimraf = require('rimraf');
 const crypto = require('crypto');
 const { exec } = require('child_process');
 const toProperCase = require('./middleware/toProperCase');
-const discordAuth = require('./middleware/discordAuth');
+const googleAuth = require('./middleware/googleAuth');
 const { logs } = require('./configs/logs.json');
 
 const app = express();
@@ -29,8 +29,8 @@ if (!fs.existsSync('./src/temp')) {
 	fs.mkdirSync('./src/temp', { recursive: true });
 }
 
-function setupDAuth() {
-	passport.use(new DiscordStrategy({ clientID: process.env.DISCORD_CLIENT_ID, clientSecret: process.env.DISCORD_CLIENT_SECRET, callbackURL: `${process.env.CALLBACK_URL ? process.env.CALLBACK_URL : 'http://localhost'}/auth/discord/callback`, scope: ['identify', 'email'] }, (accessToken, refreshToken, profile, cb) => {
+function setupAuth() {
+	passport.use(new GoogleStrategy({ clientID: process.env.GOOGLE_CLIENT_ID, clientSecret: process.env.GOOGLE_CLIENT_SECRET, callbackURL: `${process.env.CALLBACK_URL ? process.env.CALLBACK_URL : 'http://localhost'}/auth/google/callback`, scope: ['profile', 'email'] }, (accessToken, refreshToken, profile, cb) => {
 		return cb(null, profile);
 	}));
 	
@@ -56,10 +56,10 @@ app.use(passport.authenticate('session'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-setupDAuth();
+setupAuth();
 
 app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
-app.use('/_dir', discordAuth, express.static('src/public'), serveIndex('src/public', { icons: true, hidden: true, view: 'details', stylesheet: 'src/assets/directory.css' }));
+app.use('/_dir', googleAuth, express.static('src/public'), serveIndex('src/public', { icons: true, hidden: true, view: 'details', stylesheet: 'src/assets/directory.css' }));
 
 const routeFiles = fs
 	.readdirSync(`./src/routes`)

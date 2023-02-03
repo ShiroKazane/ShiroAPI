@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const masterToken = require('../middleware/masterToken');
 const randomString = require('../middleware/randomString');
-const discordAuth = require('../middleware/discordAuth');
+const googleAuth = require('../middleware/googleAuth');
 const toProperCase = require('../middleware/toProperCase');
 
 let storage = multer.diskStorage({
@@ -19,7 +19,7 @@ let storage = multer.diskStorage({
 });
 let upload = multer({ storage: storage });
 
-router.get('/', discordAuth, (req, res, next) => {
+router.get('/', googleAuth, (req, res, next) => {
 	const directories = fs.readdirSync('./src/public');
 	const content = toProperCase(JSON.stringify(directories));
 	res.status(200).render('upload-list', {
@@ -27,7 +27,7 @@ router.get('/', discordAuth, (req, res, next) => {
 	})
 })
 
-router.get('/:id', discordAuth, upload.single('image'), (req, res, next) => {
+router.get('/:id', googleAuth, upload.single('image'), (req, res, next) => {
 	const dest = path.resolve(`./src/public/${req.params.id}`);
 	if (!fs.existsSync(dest)) {
 		return res.status(404).render('4xx/404');

@@ -1,14 +1,17 @@
 const express = require('express');
 const router = new express.Router();
-const discordAuth = require('../middleware/discordAuth');
+const googleAuth = require('../middleware/googleAuth');
 
-router.get('/', discordAuth, (req, res) => {
-	const { id, avatar, username, discriminator } = req.user;
-	const avatarURL = avatar ? `https://cdn.discordapp.com/avatars/${id}/${avatar}.jpg?size=512` : 'https://cdn.discordapp.com/embed/avatars/0.png';
+router.get('/', googleAuth, (req, res) => {
+	const username = req.user.displayName;
+	const email = req.user._json.email;
+	const id = req.user.id;
+	var avatarURL = req.user._json.picture;
+	avatarURL = avatarURL.replace(/=s96-c/g, '?rel=0');
 	res.render('dashboard', {
 		avatar: avatarURL,
-        discriminator,
 		username,
+		email,
         id
 	});
 });

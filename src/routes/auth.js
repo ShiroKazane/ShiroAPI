@@ -84,9 +84,9 @@ router.delete('/delete', masterToken, async (req, res) => {
 });
 
 
-router.get('/discord', passport.authenticate('discord'));
+router.get('/google', passport.authenticate('google'));
 
-router.get('/discord/callback', passport.authenticate('discord', { failureRedirect: '/auth/login', successRedirect: '/dashboard' }), function(req, res) {
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/auth/login', successRedirect: '/dashboard' }), function(req, res) {
 	res.status(200).redirect(req.session.returnTo || '/dashboard');
 });
 
