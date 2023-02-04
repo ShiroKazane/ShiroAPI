@@ -237,7 +237,7 @@
 						return `<li onclick="updateName(this)" class="${isSelected}">${data}</li>`;
 					})
 					.join('');
-				options.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! API not found</p>`;
+				options.innerHTML = arr ? arr : `<p style="margin-top: 10px;color: #EEEEEE">Oops! API not found</p>`;
 			});
             
             button.onclick = function() {
