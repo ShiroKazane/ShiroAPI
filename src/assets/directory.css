@@ -7,16 +7,15 @@
 body {
 	padding: 80px 100px;
 	font: 13px 'Helvetica Neue', 'Lucida Grande', 'Arial';
-	background: #2f3136;
+	background: #222831;
 	background-repeat: no-repeat;
-	color: #a3a6aa;
 	-webkit-font-smoothing: antialiased;
 }
 h1,
 h2,
 h3 {
 	font-size: 22px;
-	color: #fff;
+	color: #EEEEEE;
 }
 h1 em,
 h2 em {
@@ -32,7 +31,7 @@ h2 {
 h3 {
 	margin: 5px 0 10px 0;
 	padding-bottom: 5px;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #BEBEBE;
 	font-size: 18px;
 }
 ul li {
@@ -40,7 +39,7 @@ ul li {
 }
 ul li:hover {
 	cursor: pointer;
-	color: #2e2e2e;
+	color: #393E46;
 }
 ul li .path {
 	padding-left: 5px;
@@ -57,11 +56,11 @@ p {
 	line-height: 1.5;
 }
 a {
-	color: #fffafa;
+	color: #EEEEEE;
 	text-decoration: none;
 }
 a:hover {
-	color: #b3b3b3;
+	color: #BEBEBE;
 }
 #stacktrace {
 	margin-top: 15px;
@@ -104,12 +103,12 @@ ul#files li a.highlight {
 	padding: 6px 14px;
 	border: none;
 	outline: none;
-	background: #242424;
+	background: #393E46;
 	border-bottom: 2px solid #ccc;
-	color: #fffafa;
+	color: #EEEEEE;
 }
 #search::placeholder {
-	color: #b3b3b3;
+	color: #BEBEBE;
 }
 
 /*views*/
@@ -146,8 +145,8 @@ ul#files.view-details li.header {
 	height: 25px;
 	padding: 6px;
 	font-size: 16px;
-	background: #242424;
-	color: #fff;
+	background: #393E46;
+	color: #EEEEEE;
 	font-weight: bold;
 	margin-bottom: 10px;
 }
@@ -193,8 +192,8 @@ ul#files.view-details li.header {
 	.directory h1 {
 		font-size: 2em;
 		line-height: 1.5em;
-		color: #fff;
-		background: #111;
+		color: #EEEEEE;
+		background: #3282B8;
 		padding: 15px 10px;
 		margin: 0;
 	}
@@ -211,7 +210,7 @@ ul#files.view-details li.header {
 		margin: 0;
 		padding: 6px;
 		border: none;
-		border-bottom: 1px solid #242424;
+		border-bottom: 1px solid #393E46;
 	}
 	ul#files li a {
 		height: auto;
