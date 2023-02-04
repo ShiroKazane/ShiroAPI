@@ -229,7 +229,7 @@
 				let searchWord = searchInp.value.toLowerCase();
 				arr = contents
 					.filter((data) => {
-						return data.toLowerCase().startsWith(searchWord);
+						return data.toLowerCase().includes(searchWord);
 					})
 					.map((data) => {
 						let isSelected =
