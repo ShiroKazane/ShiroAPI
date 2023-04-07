@@ -7,8 +7,11 @@ const tempPath = `./src/temp`;
 
 router.get('/avatar/:username', async (req, res) => {
     try {
+        let username = req.params.username;
+        if (username.charAt(0) === '.') {
+            username = 'MHF_Steve';
+        }
         const size = req.query.size;
-        const username = req.params.username;
         const { id } = await fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`).then((res) => res.json());
         const avatar = `https://crafatar.com/avatars/${id}?size=${size || '32'}&overlay`;
         const img = path.resolve(tempPath, `${id || username}-${size || '32'}.png`);
