@@ -13,7 +13,7 @@ router.get('/avatar/:username', async (req, res) => {
         }
         const size = req.query.size;
         const { id } = await fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`).then((res) => res.json());
-        const avatar = `https://crafatar.com/avatars/${id}?size=${size || '32'}&overlay`;
+        const avatar = `https://crafatar.com/avatars/${id || 'ec67c9217f72471ba7a5ebad4ceb3808'}?size=${size || '32'}&overlay`;
         const img = path.resolve(tempPath, `${id || username}-${size || '32'}.png`);
         await getImage(avatar, img);
         res.sendFile(img);
