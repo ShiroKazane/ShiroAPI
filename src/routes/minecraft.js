@@ -9,7 +9,7 @@ router.get('/avatar/:username', async (req, res) => {
     try {
         let username = req.params.username;
         if (username.charAt(0) === '.') {
-            username = 'MHF_Steve';
+            username = 'FreehandCargo95';
         }
         const size = req.query.size;
         const { id } = await fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`).then((res) => res.json());
@@ -25,8 +25,11 @@ router.get('/avatar/:username', async (req, res) => {
 
 router.get('/icon/:username', async (req, res) => {
     try {
+        let username = req.params.username;
+        if (username.charAt(0) === '.') {
+            username = 'FreehandCargo95';
+        }
         const size = req.query.size;
-        const username = req.params.username;
         const { id } = await fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`).then((res) => res.json());
         const icon = `https://visage.surgeplay.com/face/${size || '32'}/${id || 'X-Steve'}.png`;
         const img = path.resolve(tempPath, `${id || username}-${size || '32'}.png`);
