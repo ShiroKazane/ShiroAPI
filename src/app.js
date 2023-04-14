@@ -73,6 +73,10 @@ app.get('/', (req, res) => {
 	res.render('index');
 });
 
+app.get('/discord', (req, res) => {
+	res.redirect('https://discord.gg/WXFAVApEw9');
+});
+
 app.post('/payload', (req, res) => {
 	const signature = req.headers['x-hub-signature'];
 	if (!signature) {
