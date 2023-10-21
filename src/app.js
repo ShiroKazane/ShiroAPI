@@ -73,6 +73,13 @@ app.get('/', (req, res) => {
 	res.render('index');
 });
 
+app.get('/obfuscator', (req, res) => {
+	res.render('obfuscator', {
+		title: 'Obfuscator',
+		url: req.originalUrl
+	})
+})
+
 app.get('/discord', (req, res) => {
 	res.redirect('https://discord.gg/WXFAVApEw9');
 });
