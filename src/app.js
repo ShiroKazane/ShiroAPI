@@ -132,6 +132,8 @@ mongoose.connection.on('err', (err) => {
 	console.error(color.red('[ERROR]'), 'DATABASE', color.red('An error occured with the database connection:\n'), err);
 });
 
+mongoose.set('strictQuery', true);
+
 (async () => {
 	await mongoose
 		.connect(process.env.MONGO_URI)
