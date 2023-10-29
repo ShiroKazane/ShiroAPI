@@ -68,6 +68,11 @@
 				background: #222831;
 			}
 
+			body::-webkit-scrollbar {
+				width: 0;
+				height: 0;
+			}
+
 			p {
 				box-sizing: border-box;
 				position: relative;
@@ -100,6 +105,7 @@
 				color: #a2aabc;
 				line-height: 1.5;
 				font-size: 1em;
+				cursor: default;
 			}
 
 			pre code .token.keyword, .token.operator {
@@ -139,13 +145,13 @@
 				font-weight: normal;
 				border: none;
 				outline: none;
-				color: #a2aabc;
+				color: #BAE67E;
 				background-color: #2d3748;
 				box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 			}
 
 			input::placeholder {
-				color: #a2aabc
+				color: #BAE67E
 			}
 		</style>
 	</head>
@@ -185,19 +191,12 @@ end</code></pre>
 		let code = document.querySelector("code");
 
 		blocks.forEach((block) => {
-		if (navigator.clipboard) {
-			let button = document.createElement("button");
-
-			button.innerText = copyButtonLabel;
-			block.appendChild(button);
-
-			button.addEventListener("click", async () => {
-			await copyCode(block, button);
-			});
-		}
+			block.ondblclick = async function() {
+				select(block)
+			}
 		});
 
-		async function copyCode(block, button) {
+		async function select(block) {
 			let code = block.querySelector("code");
 			let text = code.innerText;
 			let range = document.createRange();
@@ -207,12 +206,6 @@ end</code></pre>
 			let selection = window.getSelection();
 			selection.removeAllRanges();
 			selection.addRange(range)
-
-			button.innerText = "Copied!";
-
-			setTimeout(()=> {
-				button.innerText = copyButtonLabel;
-			}, 700)
 		}
 
 		// Main Features
@@ -353,8 +346,6 @@ end</code></pre>
 
 			let keys = document.querySelector("input").value;
 			let sc = document.querySelector("textarea").value;
-
-			console.log(keys)
 
 			for (let i = 0; i < keys.length; i++) {
                 realKey += "\\" + keys.charCodeAt(i);
