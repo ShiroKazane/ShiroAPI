@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ShiroAPI - <?= title ?></title>
+		<meta name="title" content="ShiroAPI - <?= title ?>" />
+		<meta name="theme-color" content="currentColor" />
+		<meta name="description" content="Made with &#10084; by ShiroKazane." />
+		<meta
+			name="keywords"
+			content="shiroapi, shiro api, shirokazane, obfuscator" />
+		<meta name="author" content="ShiroKazane" />
+		<meta name="url" content="api.shirokazane.my.id<?= url ?>" />
+		<meta name="og:title" content="ShiroAPI - <?= title ?>" />
+		<meta name="og:type" content="website" />
+		<meta name="og:url" content="api.shirokazane.my.id<?= url ?>" />
+		<meta name="og:image" content="/image/c9XJcP-w0n9ls7E" />
+		<meta name="og:site_name" content="ShiroAPI" />
+		<meta name="og:description" content="Made with &#10084; by ShiroKazane." />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="api.shirokazane.my.id<?= url ?>" />
+		<meta name="twitter:creator" content="@ShiroKazane" />
+		<meta name="twitter:title" content="ShiroAPI - <?= title ?>" />
+		<meta
+			name="twitter:description"
+			content="Made with &#10084; by ShiroKazane." />
+		<meta name="twitter:image" content="/image/c9XJcP-w0n9ls7E" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+		<style>
+            @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+				font-family: 'Poppins', sans-serif;
+            }
+
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                background: #222831;
+                -webkit-user-select: none;
+                -webkit-touch-callout: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+            ::selection {
+                color: #EEEEEE;
+                background: #222831;
+            }
+
+            .wrapper {
+                width: 370px;
+                background: #393E46;
+                border-radius: 5px;
+                padding: 30px;
+				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            }
+
+            .wrapper header {
+                color: #EEEEEE;
+                font-size: 27px;
+                font-weight: 600;
+                text-align: center;
+            }
+
+            .wrapper .script-wrapper {
+                height: 50px;
+                display: flex;
+                cursor: pointer;
+                margin: 30px 0 10px 0;
+                margin-bottom: 10px;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                border-radius: 5px;
+                border: 2px solid #EEEEEE;
+            }
+            
+            .wrapper .script-wrapper label {
+                color: #EEEEEE;
+                cursor: pointer;
+            }
+
+            .file-name {
+                color: #EEEEEE;
+            }
+
+            .encrypt {
+                position: relative;
+                padding: 15px 0 0;
+                margin-top: 2px;
+                width: 100%;
+            }
+
+            .encrypt input {
+                font-family: inherit;
+                width: 100%;
+                border: 0;
+                border-bottom: 2px solid #EEEEEE;
+                outline: 0;
+                font-size: 1.2em;
+                color: #EEEEEE;
+                padding: 5px 0;
+                background: transparent;
+                transition: border-color 0.2s;
+
+                &::placeholder {
+                    color: transparent;
+                }
+
+                &:placeholder-shown ~ .key-label {
+                    font-size: 1em;
+                    cursor: text;
+                    top: 20px;
+                }
+            }
+            
+            .encrypt label {
+                position: absolute;
+                top: 0;
+                display: block;
+                transition: 0.2s;
+                font-size: 0.75em;
+                color: #EEEEEE;
+            }
+
+            .encrypt input:focus {
+                ~ .key-label {
+                    position: absolute;
+                    top: 0;
+                    display: block;
+                    transition: 0.2s;
+                    font-size: .75em;
+                    color: #EEEEEE;
+                }
+            }
+
+            .encrypt input {
+                &:required,&:invalid {
+                    box-shadow: none;
+                }
+            }
+
+            button {
+                margin-top: 20px;
+                height: 40px;
+                width: 120px;
+                border: solid 2px #EEEEEE;
+                background-color: transparent;
+                cursor: pointer;
+                outline: none;
+                color: #EEEEEE;
+                font-size: 12px;
+                font-family: Bodoni MT, Bodoni 72, Didot, Didot LT STD, Hoefler Text, Garamond, Times New Roman, serif;
+            }
+
+            .spark {
+                position: absolute;
+                width: 15px;
+                height: 4px;
+                border-radius: 3px;
+                background-color: #EEEEEE;
+                transform: none;
+                }
+		</style>
+	</head>
+	<body>
+		<div class="wrapper">
+            <header><?= title ?></header>
+            <form enctype="multipart/form-data">
+                <div class="script-wrapper">
+                    <label for="script">Select Script</label>
+                    <input type="file" name="script" id="script" class="script-input" accept=".lua,.txt" hidden>
+                </div>
+                <div class="file-name">No File Choosen</div>
+                <div class="encrypt">
+                    <input type="text" name="key" class="key-input" placeholder="Encrypt Key" id="key" required>
+                    <label for="key" class="key-label">Encrypt Key</label>
+                </div>
+                <button type="submit" name="obfuscate" id="obfuscate">Obfuscate</button>
+            </form>
+        </div>
+        <script>
+            // declare realkey variable
+            let realKey = "";
+
+            // random chars length
+            let leng = 128;
+            // key integer length xor loop
+            let k = 0;
+
+            // characters
+            const abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            // characters table
+            let abcTab = [];
+
+            // inserting chars
+            for (let i = 0; i < abc.length; i++) {
+                abcTab[i] = abc[i];
+            }
+
+            // ran{m string
+            let ran1 = "";
+            let ran2 = "";
+            let ran3 = "";
+            let ran4 = "";
+            let ran5 = "";
+            let ran6 = "";
+            for (let i = 0; i < leng; i++) {
+                ran1 += abcTab[Math.floor(Math.random() * abcTab.length)];
+                ran2 += abcTab[Math.floor(Math.random() * abcTab.length)];
+                ran3 += abcTab[Math.floor(Math.random() * abcTab.length)];
+                ran4 += abcTab[Math.floor(Math.random() * abcTab.length)];
+                ran5 += abcTab[Math.floor(Math.random() * abcTab.length)];
+                ran6 += abcTab[Math.floor(Math.random() * abcTab.length)];
+            }
+
+            // function encrypt xor
+            const xorE = (sc, key) => {
+                const table = [];
+                let k = 0;
+                for (let i = 0; i < sc.length; i++) {
+                let byteValue = sc.charCodeAt(i) + key.charCodeAt(k);
+                k++;
+                table.push(byteValue);
+                if (k == key.length) {
+                    k = 0;
+                }
+                }
+                return table;
+            };
+
+            const xorE2 = (sc, key) => {
+                let table = [];
+                for (let i = 0; i < sc.length; i++) {
+                k += 1;
+                let byte = sc.charCodeAt(i) + key.charCodeAt(k);
+                table.push(byte);
+                if (k == key.length) {
+                    k = 0;
+                }
+                }
+                k = 0;
+                return table;
+            };
+
+            // function decrypt xor for testing
+            const xorD = (table) => {
+                let result = "";
+                for (const v of table) {
+                k = k + 1;
+                result = result + String.fromCharCode(v - key.charCodeAt(k));
+                if (k == key.length) {
+                    k = 0;
+                }
+                }
+                return result;
+            };
+
+            // declare table alibi
+            let tab1 = [];
+            let tab2 = [];
+            let tab3 = [];
+            let tab4 = [];
+            let tab5 = [];
+            let tab6 = [];
+
+            for (let i = 0; i < leng; i++) {
+                // tab1[i] = string.byte(abcTab[math.ranm(1, #abcTab)]
+                tab1[i] =
+                abcTab[Math.floor(Math.random() * abcTab.length)].charCodeAt(0);
+                tab2[i] =
+                abcTab[Math.floor(Math.random() * abcTab.length)].charCodeAt(0);
+                tab3[i] =
+                abcTab[Math.floor(Math.random() * abcTab.length)].charCodeAt(0);
+                tab4[i] =
+                abcTab[Math.floor(Math.random() * abcTab.length)].charCodeAt(0);
+                tab5[i] =
+                abcTab[Math.floor(Math.random() * abcTab.length)].charCodeAt(0);
+                tab6[i] =
+                abcTab[Math.floor(Math.random() * abcTab.length)].charCodeAt(0);
+            }
+
+            tab1 = tab1.join();
+            tab2 = tab2.join();
+            tab3 = tab3.join();
+            tab4 = tab4.join();
+            tab5 = tab5.join();
+            tab6 = tab6.join();
+
+            // function alibi alias pengalhan
+            // @param var1 key
+            // @param var2 string
+            // @param var3 variable
+            // @param thetable table
+            const alibi = (var1, var2, var3, thetable) => {
+                return `_ENV={string=string,table=table,math=math,pairs=pairs,load=load,print=print};${var1}="${var2}";${var2}="${var1}";${var3}={${thetable}};function xor(t)local ciphertext="";for i=1,#${var2} do local byte=string.byte(${var2}, i);local quibit=string.byte(${var1},(i-1)%#${var1}+1);ciphertext=ciphertext..string.char(bit.bxor(byte,quibit));end;return ciphertext;end;bit={bxor=function(a,b)local r,m=0,1;while a>0 and b>0 do local aa,bb=a%2,b%2;r=r+m*((aa+bb)%2);m=m*2;a=math.floor(a/2);b=math.floor(b/2) end;if a>0 then r=r+m*a end;if b>0 then r=r+m*b end;return r;end};xor(${var3})${ran1}z="Encrypt By ShiroKzn";`;
+            };
+
+            // @return function decrypt real
+            const decX = (table) => {
+                // ran3
+                let script = ran3;
+                // ran4
+                let keyleng = ran4;
+                // ran1
+                let l = ran1;
+                // ran2
+                let v = ran2;
+                // ran5
+                let result = ran5;
+                return `${script}={${table.join()}};${keyleng}=0;${result}='';for ${l},${v} in pairs(${script}) do ${keyleng}=${keyleng}+1;${result}=${result}.._ENV["\\115\\116\\114\\105\\110\\103"]["\\99\\104\\97\\114"](${v}-_ENV["\\115\\116\\114\\105\\110\\103"]["\\98\\121\\116\\101"]("${realKey}",${keyleng}));if ${keyleng}==#"${realKey}" then ${keyleng}=0;end;end;if ${ran1}z=="\\69\\110\\99\\114\\121\\112\\116\\32\\66\\121\\32\\83\\104\\105\\114\\111\\75\\122\\110" then _ENV["\\108\\111\\97\\100"](${result})() else print("Error while running this code");end;`;
+            };
+
+            let styleSheet = null;
+
+            const SPARK_ELEMENT_WIDTH = 30;
+            const DISTANCE = 40;
+
+            const RANDOMNESS_ON = true;
+
+            function createTransformSteps() {
+            if (Array.from(arguments).length === 0) {
+                throw Exception("arguments to createTransformSteps should never be empty!");
+            }
+
+            const inputSteps = Array.from(arguments);
+            const outputSteps = [inputSteps.shift()];
+            inputSteps.forEach((step, i) => {
+                outputSteps.push(`${outputSteps[i]} ${step}`);
+            });
+                return outputSteps;
+            }
+
+            const dynamicAnimation = (name, rotation) => {
+            if (!styleSheet) {
+                styleSheet = document.createElement("style");
+                styleSheet.type = "text/css";
+                document.head.appendChild(styleSheet);
+            }
+
+            const randomDist = RANDOMNESS_ON
+                ? Math.floor((Math.random() - 0.5) * DISTANCE * 0.7)
+                : 0;
+
+            const [s1, s2, s3] = createTransformSteps(
+                `translate(-50%, -50%) rotate(${rotation}deg) translate(10px, 0px)`,
+                `translate(${DISTANCE + randomDist}px, 0px) scale(0.5, 0.5)`,
+                `translate(${SPARK_ELEMENT_WIDTH / 2}px, 0) scale(0, 0)`
+            );
+
+            styleSheet.sheet.insertRule(
+                `@keyframes ${name} {
+                0% {
+                transform: ${s1};
+                }
+                70% {
+                transform: ${s2};
+                }
+                100% {
+                transform: ${s3};
+                }
+            }`,
+                styleSheet.length
+            );
+            };
+
+            document.getElementById('obfuscate').addEventListener('click', (e) => {
+                const center = { x: e.pageX, y: e.pageY };
+                makeBurst(center);
+            });
+
+            const makeBurst = (center) => {
+            for (let i = 0; i < 8; i++) {
+                const randomSpace = RANDOMNESS_ON
+                ? Math.floor(-17 + Math.random() * 34)
+                : 0;
+                makeSpark(center, 45 * i + randomSpace);
+            }
+            };
+
+            const makeSpark = (center, rotation) => {
+                const div = document.createElement('div');
+                const aniName = `disappear_${rotation}`;
+                dynamicAnimation(aniName, rotation);
+
+                div.classList.add('spark');
+                div.style.left = `${center.x}px`;
+                div.style.top = `${center.y}px`;
+                div.style.animation = `${aniName} 500ms ease-out both`;
+
+                document.body.append(div);
+            };
+
+            const form = document.querySelector('form'),
+            scriptWrapper = document.querySelector('.script-wrapper'),
+            scriptInput = document.querySelector('.script-input'),
+            fileName = document.querySelector('.file-name');
+            const read = new FileReader();
+
+            scriptWrapper.addEventListener('click', () => {
+                scriptInput.click();
+            });
+
+            scriptInput.onchange = ({target}) => {
+                let script = target.files[0];
+                let realName = script.name;
+                let size = (script.size / 1024).toFixed(2);
+                fileName.innerHTML = `${script.name} (${size}KB)`;
+            }
+
+            form.addEventListener('submit', (event) => {
+                console.log('Encrypting..')
+                let script = document.getElementById('script').files[0];
+                if (script == null) alert('Please upload script first!');
+                let keys = document.getElementById('key').value;
+                console.log(keys);
+                for (let i = 0; i < keys.length; i++) {
+                realKey += "\\" + keys.charCodeAt(i);
+                }
+                read.readAsText(script);
+                read.onload = () => {
+                    const sc = read.result;
+                    const templateE = `local key=[[${keys}]];${ran1}z='Encrypt By ShiroKzn';${ran2}=${ran1};${ran3}=${ran2};${ran4}=${ran3};${ran5}=${ran4};${ran6}=${ran5};`;
+                    const Output =
+                        templateE +
+                        alibi(ran1, ran2, ran3, tab1) +
+                        alibi(ran4, ran2, ran5, tab2) +
+                        alibi(ran6, ran3, ran1, tab3) +
+                        decX(xorE(sc, keys)) +
+                        alibi(ran2, ran4, ran6, tab4) +
+                        alibi(ran1, ran4, ran5, tab5) +
+                        alibi(ran2, ran1, ran3, tab6);
+                    let blob = new Blob([Output], { type: 'octet-stream' });
+                    const href = URL.createObjectURL(blob);
+                    const a = Object.assign(document.createElement('a'), {
+                        href,
+                        style: 'display:none',
+                        download: `Encrypted_${script.name}`,
+                    });
+                    a.click();
+                    console.log('Downloading..');
+                    URL.revokeObjectURL(href);
+                    a.remove();
+                };
+            })
+        </script>
+	</body>
+</html>

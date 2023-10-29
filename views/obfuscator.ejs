@@ -7,9 +7,7 @@
 		<meta name="title" content="ShiroAPI - <?= title ?>" />
 		<meta name="theme-color" content="currentColor" />
 		<meta name="description" content="Made with &#10084; by ShiroKazane." />
-		<meta
-			name="keywords"
-			content="shiroapi, shiro api, shirokazane, obfuscator" />
+		<meta name="keywords" content="shiroapi, shiro api, shirokazane, obfuscator" />
 		<meta name="author" content="ShiroKazane" />
 		<meta name="url" content="api.shirokazane.my.id<?= url ?>" />
 		<meta name="og:title" content="ShiroAPI - <?= title ?>" />
@@ -22,172 +20,207 @@
 		<meta name="twitter:site" content="api.shirokazane.my.id<?= url ?>" />
 		<meta name="twitter:creator" content="@ShiroKazane" />
 		<meta name="twitter:title" content="ShiroAPI - <?= title ?>" />
-		<meta
-			name="twitter:description"
-			content="Made with &#10084; by ShiroKazane." />
+		<meta name="twitter:description" content="Made with &#10084; by ShiroKazane." />
 		<meta name="twitter:image" content="/image/c9XJcP-w0n9ls7E" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
 		<style>
-            @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-				font-family: 'Poppins', sans-serif;
-            }
+			@import url("https://fonts.googleapis.com/css?family=Fira+Mono&amp;display=swap");
+			textarea {
+				resize: none;
+			}
 
-            body {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-                background: #222831;
-                -webkit-user-select: none;
-                -webkit-touch-callout: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-            }
+			textarea.auto {
+				overflow-y: scroll;
+			}
 
-            ::selection {
-                color: #EEEEEE;
-                background: #222831;
-            }
+			textarea {
+				box-sizing: border-box;
+				width: 75%;
+				max-height: 50vh;
+				font-size: 14px;
+				font-family: 'Fira Mono';
+				line-height: 1.5;
+				padding: 1em;
+				overflow: auto;
+				border: none;
+				border-radius: 8px;
+				color: #a2aabc;
+				background: #2d3748;
+				box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+			}
 
-            .wrapper {
-                width: 370px;
-                background: #393E46;
-                border-radius: 5px;
-                padding: 30px;
-				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            }
+			textarea::-webkit-scrollbar {
+				width: 0;
+				height: 0;
+			}
 
-            .wrapper header {
-                color: #EEEEEE;
-                font-size: 27px;
-                font-weight: 600;
-                text-align: center;
-            }
+			textarea:focus,
+			textarea:hover {
+				outline: none;
+			}
 
-            .wrapper .script-wrapper {
-                height: 50px;
-                display: flex;
-                cursor: pointer;
-                margin: 30px 0 10px 0;
-                margin-bottom: 10px;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-                border-radius: 5px;
-                border: 2px solid #EEEEEE;
-            }
-            
-            .wrapper .script-wrapper label {
-                color: #EEEEEE;
-                cursor: pointer;
-            }
+			body {
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				background: #222831;
+			}
 
-            .file-name {
-                color: #EEEEEE;
-            }
+			p {
+				box-sizing: border-box;
+				position: relative;
+				font-size: 20px;
+				margin: 10px 0;
+				font-family: 'Fira Mono';
+				color: #a2aabc;
+			}
 
-            .encrypt {
-                position: relative;
-                padding: 15px 0 0;
-                margin-top: 2px;
-                width: 100%;
-            }
+			pre[class*="language-"] {
+				box-sizing: border-box;
+				position: relative;
+				tab-size: 4;
+				width: 75%;
+				padding: 1em;
+				margin: 0.5em 0;
+				overflow: auto;
+				border-radius: 8px;
+				background: #2d3748;
+				box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+			}
 
-            .encrypt input {
-                font-family: inherit;
-                width: 100%;
-                border: 0;
-                border-bottom: 2px solid #EEEEEE;
-                outline: 0;
-                font-size: 1.2em;
-                color: #EEEEEE;
-                padding: 5px 0;
-                background: transparent;
-                transition: border-color 0.2s;
+			pre[class*="language-"]::-webkit-scrollbar {
+				width: 0;
+				height: 0;
+			}
+			
+			pre code[class*="language-"] {
+				font-family: 'Fira Mono';
+				color: #a2aabc;
+				line-height: 1.5;
+				font-size: 1em;
+			}
 
-                &::placeholder {
-                    color: transparent;
-                }
+			pre code .token.keyword, .token.operator {
+				color: #FFAE57;
+			}
+			pre code .token.punctuation {
+				color: #FFD580;
+			}
+			pre code .token.number {
+				color: #C3A6FF;
+			}
+			pre code .token.string {
+				color: #BAE67E;
+			}
+			pre[class*="language-"] button {
+				font-family: 'Fira Mono';
+				background-color: #1d2433;
+				color: #a2aabc;
+				cursor: pointer;
+				position: absolute;
+				top: 5px;
+				right: 5px;
+				padding: 0.5rem;
+				border: none;
+				border-radius: 8px;
+				margin: 0.25rem 0;
+			}
+			
+			input {
+				font-family: 'Fira Mono';
+				width: 10%;
+				height: 36px;
+				border-radius: 4px;
+				padding: 0 12px;
+				margin: 10px 0;
+				font-size: 14px;
+				font-weight: normal;
+				border: none;
+				outline: none;
+				color: #a2aabc;
+				background-color: #2d3748;
+				box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+			}
 
-                &:placeholder-shown ~ .key-label {
-                    font-size: 1em;
-                    cursor: text;
-                    top: 20px;
-                }
-            }
-            
-            .encrypt label {
-                position: absolute;
-                top: 0;
-                display: block;
-                transition: 0.2s;
-                font-size: 0.75em;
-                color: #EEEEEE;
-            }
-
-            .encrypt input:focus {
-                ~ .key-label {
-                    position: absolute;
-                    top: 0;
-                    display: block;
-                    transition: 0.2s;
-                    font-size: .75em;
-                    color: #EEEEEE;
-                }
-            }
-
-            .encrypt input {
-                &:required,&:invalid {
-                    box-shadow: none;
-                }
-            }
-
-            button {
-                margin-top: 20px;
-                height: 40px;
-                width: 120px;
-                border: solid 2px #EEEEEE;
-                background-color: transparent;
-                cursor: pointer;
-                outline: none;
-                color: #EEEEEE;
-                font-size: 12px;
-                font-family: Bodoni MT, Bodoni 72, Didot, Didot LT STD, Hoefler Text, Garamond, Times New Roman, serif;
-            }
-
-            .spark {
-                position: absolute;
-                width: 15px;
-                height: 4px;
-                border-radius: 3px;
-                background-color: #EEEEEE;
-                transform: none;
-                }
+			input::placeholder {
+				color: #a2aabc
+			}
 		</style>
 	</head>
 	<body>
-		<div class="wrapper">
-            <header><?= title ?></header>
-            <form enctype="multipart/form-data">
-                <div class="script-wrapper">
-                    <label for="script">Select Script</label>
-                    <input type="file" name="script" id="script" class="script-input" accept=".lua,.txt" hidden>
-                </div>
-                <div class="file-name">No File Choosen</div>
-                <div class="encrypt">
-                    <input type="text" name="key" class="key-input" placeholder="Encrypt Key" id="key" required>
-                    <label for="key" class="key-label">Encrypt Key</label>
-                </div>
-                <button type="submit" name="obfuscate" id="obfuscate">Obfuscate</button>
-            </form>
-        </div>
-        <script>
-            // declare realkey variable
+		<textarea class="language-lua" rows="1"></textarea>
+		<input type="text" class="key" placeholder="Encrypt Key" value="shirokzn">
+		<p>Result</p>
+        <pre><code class="language-lua">local function log()
+	local var = {}
+	var[0] = "OnDialogRequest"
+	var[1] = text
+	var.netid = -1
+	SendPacket(var)
+end</code></pre>
+	</body>
+	<script>
+		document.querySelectorAll('textarea').forEach(el => {
+			el.style.height = el.setAttribute('style', 'height: ' + el.scrollHeight + 'px');
+			el.classList.add('auto');
+			el.addEventListener('input', e => {
+				el.style.height = 'auto';
+				el.style.height = (el.scrollHeight) + 'px';
+			});
+		});
+
+		let textarea = document.querySelector("textarea")
+		textarea.addEventListener("keydown", function (e) {
+            if (e.key === "Tab") {
+                e.preventDefault();
+                document.execCommand("insertText", false, "    ");
+            }
+        });
+
+		const copyButtonLabel = "Copy";
+
+		let blocks = document.querySelectorAll("pre");
+		let code = document.querySelector("code");
+
+		blocks.forEach((block) => {
+		if (navigator.clipboard) {
+			let button = document.createElement("button");
+
+			button.innerText = copyButtonLabel;
+			block.appendChild(button);
+
+			button.addEventListener("click", async () => {
+			await copyCode(block, button);
+			});
+		}
+		});
+
+		async function copyCode(block, button) {
+			let code = block.querySelector("code");
+			let text = code.innerText;
+			let range = document.createRange();
+			range.selectNodeContents(code);
+
+			await navigator.clipboard.writeText(text);
+			let selection = window.getSelection();
+			selection.removeAllRanges();
+			selection.addRange(range)
+
+			button.innerText = "Copied!";
+
+			setTimeout(()=> {
+				button.innerText = copyButtonLabel;
+			}, 700)
+		}
+
+		// Main Features
+
+		textarea.oninput = obfuscate;
+
+		function obfuscate() {
+			// declare realkey variable
             let realKey = "";
 
             // random chars length
@@ -315,141 +348,32 @@
                 let v = ran2;
                 // ran5
                 let result = ran5;
-                return `${script}={${table.join()}};${keyleng}=0;${result}='';for ${l},${v} in pairs(${script}) do ${keyleng}=${keyleng}+1;${result}=${result}.._ENV["\\115\\116\\114\\105\\110\\103"]["\\99\\104\\97\\114"](${v}-_ENV["\\115\\116\\114\\105\\110\\103"]["\\98\\121\\116\\101"]("${realKey}",${keyleng}));if ${keyleng}==#"${realKey}" then ${keyleng}=0;end;end;if ${ran1}z=="\\69\\110\\99\\114\\121\\112\\116\\32\\66\\121\\32\\83\\104\\105\\114\\111\\75\\122\\110" then _ENV["\\108\\111\\97\\100"](${result})() else print("Error whle runing this code");end;`;
+                return `${script}={${table.join()}};${keyleng}=0;${result}='';for ${l},${v} in pairs(${script}) do ${keyleng}=${keyleng}+1;${result}=${result}.._ENV["\\115\\116\\114\\105\\110\\103"]["\\99\\104\\97\\114"](${v}-_ENV["\\115\\116\\114\\105\\110\\103"]["\\98\\121\\116\\101"]("${realKey}",${keyleng}));if ${keyleng}==#"${realKey}" then ${keyleng}=0;end;end;if ${ran1}z=="\\69\\110\\99\\114\\121\\112\\116\\32\\66\\121\\32\\83\\104\\105\\114\\111\\75\\122\\110" then _ENV["\\108\\111\\97\\100"](${result})() else print("Error while running this code");end;`;
             };
 
-            let styleSheet = null;
+			let keys = document.querySelector("input").value;
+			let sc = document.querySelector("textarea").value;
 
-            const SPARK_ELEMENT_WIDTH = 30;
-            const DISTANCE = 40;
+			console.log(keys)
 
-            const RANDOMNESS_ON = true;
-
-            function createTransformSteps() {
-            if (Array.from(arguments).length === 0) {
-                throw Exception("arguments to createTransformSteps should never be empty!");
-            }
-
-            const inputSteps = Array.from(arguments);
-            const outputSteps = [inputSteps.shift()];
-            inputSteps.forEach((step, i) => {
-                outputSteps.push(`${outputSteps[i]} ${step}`);
-            });
-                return outputSteps;
-            }
-
-            const dynamicAnimation = (name, rotation) => {
-            if (!styleSheet) {
-                styleSheet = document.createElement("style");
-                styleSheet.type = "text/css";
-                document.head.appendChild(styleSheet);
-            }
-
-            const randomDist = RANDOMNESS_ON
-                ? Math.floor((Math.random() - 0.5) * DISTANCE * 0.7)
-                : 0;
-
-            const [s1, s2, s3] = createTransformSteps(
-                `translate(-50%, -50%) rotate(${rotation}deg) translate(10px, 0px)`,
-                `translate(${DISTANCE + randomDist}px, 0px) scale(0.5, 0.5)`,
-                `translate(${SPARK_ELEMENT_WIDTH / 2}px, 0) scale(0, 0)`
-            );
-
-            styleSheet.sheet.insertRule(
-                `@keyframes ${name} {
-                0% {
-                transform: ${s1};
-                }
-                70% {
-                transform: ${s2};
-                }
-                100% {
-                transform: ${s3};
-                }
-            }`,
-                styleSheet.length
-            );
-            };
-
-            document.getElementById('obfuscate').addEventListener('click', (e) => {
-                const center = { x: e.pageX, y: e.pageY };
-                makeBurst(center);
-            });
-
-            const makeBurst = (center) => {
-            for (let i = 0; i < 8; i++) {
-                const randomSpace = RANDOMNESS_ON
-                ? Math.floor(-17 + Math.random() * 34)
-                : 0;
-                makeSpark(center, 45 * i + randomSpace);
-            }
-            };
-
-            const makeSpark = (center, rotation) => {
-                const div = document.createElement('div');
-                const aniName = `disappear_${rotation}`;
-                dynamicAnimation(aniName, rotation);
-
-                div.classList.add('spark');
-                div.style.left = `${center.x}px`;
-                div.style.top = `${center.y}px`;
-                div.style.animation = `${aniName} 500ms ease-out both`;
-
-                document.body.append(div);
-            };
-
-            const form = document.querySelector('form'),
-            scriptWrapper = document.querySelector('.script-wrapper'),
-            scriptInput = document.querySelector('.script-input'),
-            fileName = document.querySelector('.file-name');
-            const read = new FileReader();
-
-            scriptWrapper.addEventListener('click', () => {
-                scriptInput.click();
-            });
-
-            scriptInput.onchange = ({target}) => {
-                let script = target.files[0];
-                let realName = script.name;
-                let size = (script.size / 1024).toFixed(2);
-                fileName.innerHTML = `${script.name} (${size}KB)`;
-            }
-
-            form.addEventListener('submit', (event) => {
-                console.log('Encrypting..')
-                let script = document.getElementById('script').files[0];
-                if (script == null) alert('Please upload script first!');
-                let keys = document.getElementById('key').value;
-                console.log(keys);
-                for (let i = 0; i < keys.length; i++) {
+			for (let i = 0; i < keys.length; i++) {
                 realKey += "\\" + keys.charCodeAt(i);
-                }
-                read.readAsText(script);
-                read.onload = () => {
-                    const sc = read.result;
-                    const templateE = `local key=[[${keys}]];${ran1}z='Encrypt By ShiroKzn';${ran2}=${ran1};${ran3}=${ran2};${ran4}=${ran3};${ran5}=${ran4};${ran6}=${ran5};`;
-                    const Output =
-                        templateE +
-                        alibi(ran1, ran2, ran3, tab1) +
-                        alibi(ran4, ran2, ran5, tab2) +
-                        alibi(ran6, ran3, ran1, tab3) +
-                        decX(xorE(sc, keys)) +
-                        alibi(ran2, ran4, ran6, tab4) +
-                        alibi(ran1, ran4, ran5, tab5) +
-                        alibi(ran2, ran1, ran3, tab6);
-                    let blob = new Blob([Output], { type: 'octet-stream' });
-                    const href = URL.createObjectURL(blob);
-                    const a = Object.assign(document.createElement('a'), {
-                        href,
-                        style: 'display:none',
-                        download: `Encrypted_${script.name}`,
-                    });
-                    a.click();
-                    console.log('Downloading..');
-                    URL.revokeObjectURL(href);
-                    a.remove();
-                };
-            })
-        </script>
-	</body>
+            }
+
+			let templateE = `local key=[[${keys}]];${ran1}z='Encrypt By ShiroKzn';${ran2}=${ran1};${ran3}=${ran2};${ran4}=${ran3};${ran5}=${ran4};${ran6}=${ran5};`;
+			let output =
+				templateE +
+				alibi(ran1, ran2, ran3, tab1) +
+				alibi(ran4, ran2, ran5, tab2) +
+				alibi(ran6, ran3, ran1, tab3) +
+				decX(xorE(sc, keys)) +
+				alibi(ran2, ran4, ran6, tab4) +
+				alibi(ran1, ran4, ran5, tab5) +
+				alibi(ran2, ran1, ran3, tab6);
+
+			code.innerText = output;
+		}
+	</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </html>
