@@ -159,13 +159,7 @@
 		<textarea class="language-lua" rows="1" placeholder="..."></textarea>
 		<input type="text" class="key" placeholder="Encrypt Key" value="shirokzn">
 		<p>Result</p>
-        <pre><code class="language-lua">local function log()
-	local var = {}
-	var[0] = "OnConsoleMessage"
-	var[1] = "`0[`^ShiroObfuscator`0]`o " .. tostring(text)
-	var.netid = -1
-	SendPacket(var)
-end</code></pre>
+        <pre><code class="language-lua">print("ShiroObfuscator")</code></pre>
 	</body>
 	<script>
 		document.querySelectorAll('textarea').forEach(el => {
