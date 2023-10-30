@@ -195,6 +195,7 @@
 			range.selectNodeContents(code);
 
 			await navigator.clipboard.writeText(text);
+			console.log("Copied!")
 			let selection = window.getSelection();
 			selection.removeAllRanges();
 			selection.addRange(range)
