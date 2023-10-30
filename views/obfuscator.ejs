@@ -203,11 +203,13 @@
 		// Main Features
 
 		textarea.oninput = obfuscate;
-		if (textarea.value == "") {
-			code.innerText = "print(\"ShiroObfuscator\")"
-		}
 
 		function obfuscate() {
+
+			if (textarea.value == "") {
+				return code.innerText = "print(\"ShiroObfuscator\")"
+			}
+
 			// declare realkey variable
             let realKey = "";
 
