@@ -161,8 +161,8 @@
 		<p>Result</p>
         <pre><code class="language-lua">local function log()
 	local var = {}
-	var[0] = "OnDialogRequest"
-	var[1] = text
+	var[0] = "OnConsoleMessage"
+	var[1] = "`0[`^ShiroSurg`0]`o " .. tostring(text)
 	var.netid = -1
 	SendPacket(var)
 end</code></pre>
@@ -184,8 +184,6 @@ end</code></pre>
                 document.execCommand("insertText", false, "    ");
             }
         });
-
-		const copyButtonLabel = "Copy";
 
 		let blocks = document.querySelectorAll("pre");
 		let code = document.querySelector("code");
