@@ -191,13 +191,13 @@
 		async function select(block) {
 			let code = block.querySelector("code");
 			let text = code.innerText;
-			let range = document.createRange();
-			range.selectNodeContents(code);
+			// let range = document.createRange();
+			// range.selectNodeContents(code);
 
 			await navigator.clipboard.writeText(text);
-			let selection = window.getSelection();
-			selection.removeAllRanges();
-			selection.addRange(range)
+			// let selection = window.getSelection();
+			// selection.removeAllRanges();
+			// selection.addRange(range)
 		}
 
 		// Main Features
