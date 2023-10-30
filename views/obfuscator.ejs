@@ -203,6 +203,9 @@
 		// Main Features
 
 		textarea.oninput = obfuscate;
+		if (textarea.value == nil) {
+			code.innerText = "print(\"ShiroObfuscator\")"
+		}
 
 		function obfuscate() {
 			// declare realkey variable
