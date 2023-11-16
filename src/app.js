@@ -8,6 +8,7 @@ const favicon = require('serve-favicon');
 const serveIndex = require('serve-index');
 const morgan = require('morgan');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
 const fs = require('fs');
@@ -17,6 +18,7 @@ const color = require('cli-color');
 const Table = require('cli-table');
 const rimraf = require('rimraf');
 const crypto = require('crypto');
+const cors = require('cors');
 const { exec } = require('child_process');
 const toProperCase = require('./middleware/toProperCase');
 const googleAuth = require('./middleware/googleAuth');
@@ -51,14 +53,26 @@ app.use(favicon('./src/assets/favicon.ico'));
 app.use(morgan('dev', {
 	skip: (req, res) => logs.includes(req.path)
 }));
-app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: false, maxAge: null }));
+app.use(session({
+	secret: process.env.SECRET_KEY,
+	resave: false,
+	saveUninitialized: false,
+	store: MongoStore.create({
+		mongoUrl: process.env.MONGO_URI,
+		dbName: 'ShiroAPI',
+		touchAfter: 24 * 60 * 60
+	})
+}));
 app.use(passport.authenticate('session'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors({ origin: true }))
+app.set('trust proxy', true);
 
 setupAuth();
 
 app.use(express.static('src/public', { index: false, extensions: ['jpg', 'png', 'jpeg'] }));
+app.use(express.static('src/assets', { index: false }))
 app.use('/_dir', googleAuth, express.static('src/public'), serveIndex('src/public', { icons: true, hidden: true, view: 'details', stylesheet: 'src/assets/directory.css' }));
 
 const routeFiles = fs
@@ -128,7 +142,7 @@ mongoose.connection.on('disconnected', () => {
 	console.info('[INFO] DATABASE', color.red('Disconnected.'));
 });
 
-mongoose.connection.on('err', (err) => {
+mongoose.connection.on('error', (err) => {
 	console.error(color.red('[ERROR]'), 'DATABASE', color.red('An error occured with the database connection:\n'), err);
 });
 
