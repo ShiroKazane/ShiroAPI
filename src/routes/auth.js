@@ -26,17 +26,17 @@ router.post('/signup', masterToken, async (req, res) => {
 		const { username } = req.body;
 		if (!username) {
 			return res
-				.status(400)
-				.render('4xx/400', { message: 'This server request username.' });
+			.status(400)
+			.render('4xx/400', { message: 'This server request username.' });
 		}
-
+		
 		const existingUser = await User.findOne({ username }).exec();
 		if (existingUser) {
 			return res
-				.status(409)
-				.render('4xx/409', { message: 'User already exist.' });
+			.status(409)
+			.render('4xx/409', { message: 'User already exist.' });
 		}
-
+		
 		const userToken = { username };
 		const token = jwt.sign(userToken, process.env.ACCESS_TOKEN_SECRET);
 		const user = new User({
@@ -45,7 +45,7 @@ router.post('/signup', masterToken, async (req, res) => {
 			token
 		});
 		const result = await user.save();
-
+		
 		console.log(`${result.username}(${result.token})`);
 		res
 			.status(201)
@@ -57,30 +57,38 @@ router.post('/signup', masterToken, async (req, res) => {
 });
 
 
+router.post('/logout', (req, res, next) => {
+	req.logout((err) => {
+		if (err) { return next(err); }
+		res.redirect('/');
+	})
+}) 
+
+
 router.delete('/delete', masterToken, async (req, res) => {
 	try {
 		const { username } = req.body;
 		if (!username) {
 			return res
-				.status(400)
-				.render('4xx/400', { message: 'This server request username.' });
+			.status(400)
+			.render('4xx/400', { message: 'This server request username.' });
 		}
-
+		
 		const user = await User.findOneAndRemove({ username });
 		if (!user) {
 			return res.status(400).render('4xx/400', { message: 'User not found.' });
 		}
-
+		
 		console.log(`${user.username}(${user.token}) has been deleted.`);
 		res
 			.status(200)
 			.render('2xx/200', {
 				message: `${user.username}(${user.token}) has been deleted.`
 			});
-	} catch (err) {
-		console.error(err);
-		res.status(500).render('5xx/500');
-	}
+		} catch (err) {
+			console.error(err);
+			res.status(500).render('5xx/500');
+		}
 });
 
 

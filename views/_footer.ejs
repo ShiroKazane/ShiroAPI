@@ -1,0 +1,281 @@
+                    <footer>
+                        <div>
+                            <p>
+                                Made with <span class="material-symbols-outlined">favorite</span> by <a target="_blank" href="https://github.com/ShiroKazane">ShiroKazane</a>.
+                            </p>
+                        </div>
+                    </footer>
+                </main>
+                <!-- MAIN -->
+            </section>
+            <!-- NAVBAR -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            // SIDEBAR DROPDOWN
+            const allDropdown = document.querySelectorAll('#sidebar .side-dropdown');
+            const sidebar = document.getElementById('sidebar');
+
+            allDropdown.forEach(item=> {
+                const a = item.parentElement.querySelector('a:first-child');
+                a.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    if(!this.classList.contains('active')) {
+                        allDropdown.forEach(i=> {
+                            const aLink = i.parentElement.querySelector('a:first-child');
+
+                            aLink.classList.remove('active');
+                            i.classList.remove('show');
+                        })
+                    }
+
+                    this.classList.toggle('active');
+                    item.classList.toggle('show');
+                })
+            })
+
+            // SIDEBAR COLLAPSE
+            const toggleSidebar = document.querySelector('nav .toggle-sidebar');
+            const allSideDivider = document.querySelectorAll('#sidebar .divider');
+
+            if(sidebar.classList.contains('hide')) {
+                allSideDivider.forEach(item=> {
+                    item.textContent = '-'
+                })
+                allDropdown.forEach(item=> {
+                    const a = item.parentElement.querySelector('a:first-child');
+                    a.classList.remove('active');
+                    item.classList.remove('show');
+                })
+            } else {
+                allSideDivider.forEach(item=> {
+                    item.textContent = item.dataset.text;
+                })
+            }
+
+            toggleSidebar.addEventListener('click', function () {
+                sidebar.classList.toggle('hide');
+
+                if(sidebar.classList.contains('hide')) {
+                    allSideDivider.forEach(item=> {
+                        item.textContent = '-'
+                    })
+
+                    allDropdown.forEach(item=> {
+                        const a = item.parentElement.querySelector('a:first-child');
+                        a.classList.remove('active');
+                        item.classList.remove('show');
+                    })
+                } else {
+                    allSideDivider.forEach(item=> {
+                        item.textContent = item.dataset.text;
+                    })
+                }
+            })
+
+            sidebar.addEventListener('mouseleave', function () {
+                if(this.classList.contains('hide')) {
+                    allDropdown.forEach(item=> {
+                        const a = item.parentElement.querySelector('a:first-child');
+                        a.classList.remove('active');
+                        item.classList.remove('show');
+                    })
+                    allSideDivider.forEach(item=> {
+                        item.textContent = '-'
+                    })
+                }
+            })
+
+            sidebar.addEventListener('mouseenter', function () {
+                if(this.classList.contains('hide')) {
+                    allDropdown.forEach(item=> {
+                        const a = item.parentElement.querySelector('a:first-child');
+                        a.classList.remove('active');
+                        item.classList.remove('show');
+                    })
+                    allSideDivider.forEach(item=> {
+                        item.textContent = item.dataset.text;
+                    })
+                }
+            })
+
+            // PROFILE DROPDOWN
+            const profile = document.querySelector('nav .profile');
+            const imgProfile = profile.querySelector('img');
+            const dropdownProfile = profile.querySelector('.profile-link');
+
+            imgProfile.addEventListener('click', function () {
+                dropdownProfile.classList.toggle('show');
+            })
+
+            // MENU
+            const allMenu = document.querySelectorAll('main .content-data .head .menu');
+
+            allMenu.forEach(item=> {
+                const icon = item.querySelector('.icon');
+                const menuLink = item.querySelector('.menu-link');
+
+                icon.addEventListener('click', function () {
+                    menuLink.classList.toggle('show');
+                })
+            })
+
+            window.addEventListener('click', function (e) {
+                if(e.target !== imgProfile) {
+                    if(e.target !== dropdownProfile) {
+                        if(dropdownProfile.classList.contains('show')) {
+                            dropdownProfile.classList.remove('show');
+                        }
+                    }
+                }
+
+                allMenu.forEach(item=> {
+                    const icon = item.querySelector('.icon');
+                    const menuLink = item.querySelector('.menu-link');
+
+                    if(e.target !== icon) {
+                        if(e.target !== menuLink) {
+                            if (menuLink.classList.contains('show')) {
+                                menuLink.classList.remove('show')
+                            }
+                        }
+                    }
+                })
+            })
+
+            // PROGRESSBAR
+            const allProgress = document.querySelectorAll('main .card .progress');
+
+            allProgress.forEach(item=> {
+                item.style.setProperty('--value', item.dataset.value)
+            })
+
+            if (window.matchMedia('(max-width: 768px)').matches) {
+                document.getElementById('sidebar').classList.add('hide');
+                if(sidebar.classList.contains('hide')) {
+                    allSideDivider.forEach(item=> {
+                        item.textContent = '-'
+                    })
+
+                    allDropdown.forEach(item=> {
+                        const a = item.parentElement.querySelector('a:first-child');
+                        a.classList.remove('active');
+                        item.classList.remove('show');
+                    })
+                } else {
+                    allSideDivider.forEach(item=> {
+                        item.textContent = item.dataset.text;
+                    })
+                }
+            }
+            
+            // SOCKET.IO
+            const socket = io()
+            socket.on('console', function(data) {
+                console(data)
+            })
+
+            console('[~] logged in as <?= username ?>.');
+
+            function console(data) {
+                const output = document.querySelector('.console');
+                const entry = document.createElement('div');
+                entry.textContent = data;
+                output.appendChild(entry);
+                output.scrollTop = output.scrollHeight;
+            }
+
+            const form = document.querySelector('.form-chat');
+            const input = document.querySelector('.send-chat');
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+                const data = input.value;
+                if (data === '') {
+                    return;
+                }
+                msg({ id: '<?= id ?>', username: '<?= username ?>', avatar: '<?= avatar ?>', message: data, time: '<?= now ?>' }, true);
+                socket.emit('message', { id: '<?= id ?>', username: '<?= username ?>', avatar: '<?= avatar ?>', message: data, time: '<?= now ?>' });
+                input.value = '';
+            })
+
+            socket.on('history', (data) => {
+                const chatbox = document.querySelector('.chat-box');
+                if (chatbox) {
+                    data.forEach((his) => {
+                        const exist = chatbox.querySelector(`.msg[data-id="${his._id}"]`);
+                        if (exist) {
+                            if ('<?= id ?>' !== `${his.id}`) {
+                                ext_msg(exist, his);
+                            } else {
+                                ext_msg(exist, his, true);
+                            }
+                        } else {
+                            if ('<?= id ?>' !== `${his.id}`) {
+                                msg(his);
+                            } else {
+                                msg(his, true);
+                            }
+                        }
+                    });
+                }
+                return;
+            });
+
+            socket.on('message', function(data) {
+                msg(data);
+            })
+
+            function ext_msg(exist, data, isMe = false) {
+                const img = exist.querySelector('img');
+                img.setAttribute('src', data.avatar);
+
+                const username = exist.querySelector('.username');
+                username.textContent = data.username;
+
+                const time = exist.querySelector('.time');
+                time.textContent = data.time;
+
+                const text = exist.querySelector('p');
+                text.textContent = data.message;
+            }
+
+            function msg(data, isMe = false) {
+                const chatbox = document.querySelector('.chat-box');
+                const msg = document.createElement('div');
+                msg.classList.add('msg', isMe ? 'me' : undefined);
+                msg.setAttribute('data-id', data._id);
+
+                const img = document.createElement('img');
+                img.setAttribute('src', data.avatar);
+                img.setAttribute('alt', '');
+
+                const chat = document.createElement('div');
+                chat.classList.add('chat');
+
+                const profile = document.createElement('div');
+                profile.classList.add('profile');
+
+                const username = document.createElement('span');
+                username.classList.add('username');
+                username.textContent = data.username;
+
+                const time = document.createElement('span');
+                time.classList.add('time');
+                time.textContent = data.time;
+
+                const text = document.createElement('p');
+                text.textContent = data.message;
+
+                chatbox.appendChild(msg);
+                msg.appendChild(img);
+                msg.appendChild(chat);
+                chat.appendChild(profile);
+                chat.appendChild(text);
+                profile.appendChild(username);
+                profile.appendChild(time);
+
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }
+        </script>
+    </body>
+</html>

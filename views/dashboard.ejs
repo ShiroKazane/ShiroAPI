@@ -1,167 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>ShiroAPI - Dashboard</title>
-		<meta name="title" content="ShiroAPI - Dashboard" />
-		<meta name="theme-color" content="currentColor" />
-		<meta name="description" content="Made with &#10084; by ShiroKazane." />
-		<meta
-			name="keywords"
-			content="shiroapi, shiro api, shirokazane, rest api, restful api, image, neko" />
-		<meta name="author" content="ShiroKazane" />
-		<meta name="url" content="api.shirokazane.my.id/dashboard" />
-		<meta name="og:title" content="ShiroAPI - Dashboard" />
-		<meta name="og:type" content="website" />
-		<meta name="og:url" content="api.shirokazane.my.id/dashboard" />
-		<meta name="og:image" content="/image/c9XJcP-w0n9ls7E" />
-		<meta name="og:site_name" content="ShiroAPI" />
-		<meta name="og:description" content="Made with &#10084; by ShiroKazane." />
-		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:site" content="api.shirokazane.my.id/dashboard" />
-		<meta name="twitter:creator" content="@ShiroKazane" />
-		<meta name="twitter:title" content="ShiroAPI - Dashboard" />
-		<meta
-			name="twitter:description"
-			content="Made with &#10084; by ShiroKazane." />
-		<meta name="twitter:image" content="/image/c9XJcP-w0n9ls7E" />
-		<style>
-			@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
-			body {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-				font-family: 'Poppins', sans-serif;
-				background: #222831;
-				max-height: 100vh;
-				padding: 20vh 0;
-				text-align: center;
-				display: flex;
-				cursor: default;
-				-webkit-user-select: none;
-				-webkit-touch-callout: none;
-				-moz-user-select: none;
-				-ms-user-select: none;
-				user-select: none;
+<?- include('_header') ?>
 
-			}
+    <!-- MAIN -->
+    <main>
+        <h1 class="title">Dashboard</h1>
+        <ul class="breadcrumbs">
+            <li><a href="#">Home</a></li>
+            <li class="divider">/</li>
+            <li><a href="#" class="active">Dashboard</a></li>
+        </ul>
+        <div class="info-data">
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2><?= images ?></h2>
+                        <p>Images</p>
+                    </div>
+                    <i class="bx bxs-image icon"></i>
+                </div>
+                <span class="progress" data-value="100%"></span>
+                <span class="label">includes all</span>
+            </div>
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2><?= apis ?></h2>
+                        <p>APIs</p>
+                    </div>
+                    <i class="bx bx-code-curly icon"></i>
+                </div>
+                <span class="progress" data-value="100%"></span>
+                <span class="label">includes all</span>
+            </div>
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2><?= keys ?></h2>
+                        <p>Keys</p>
+                    </div>
+                    <i class="bx bxs-key icon"></i>
+                </div>
+                <span class="progress" data-value="100%"></span>
+                <span class="label">includes all</span>
+            </div>
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2><?= request ?></h2>
+                        <p>Requests</p>
+                    </div>
+                    <i class="bx bxs-report icon"></i>
+                </div>
+                <span class="progress" data-value="100%"></span>
+                <span class="label">includes all</span>
+            </div>
+        </div>
+        <div class="data">
+            <div class="content-data">
+                <div class="head">
+                    <h3>Console (coming soon)</h3>
+                </div>
+                <div class="console"></div>
+            </div>
+            <div class="content-data">
+                <div class="head">
+                    <h3>Chat</h3>
+                </div>
+                <div class="chat-box">
+                    <p class="day"><span>to be implemented.</span></p>
+                    <div class="system">
+                        <div class="chat">
+                            <p>Chats here will not be deleted even if you reload this website.</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="form-chat">
+                    <div class="form-group">
+                        <input class="send-chat" type="text" placeholder="Type..." />
+                        <button type="submit" class="btn-send">
+                            <i class="bx bxs-send"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-			.container {
-				height: 470px;
-				width: 350px;
-				overflow: hidden;
-				padding: 0;
-				margin: 0 auto;
-				border-radius: 5px;
-				transition: all 0.3s ease-in-out;
-				background: #393E46;
-				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-			}
-
-			.container .wrapper img {
-				position: relative;
-				z-index: 20;
-				border-radius: 50%;
-				display: block;
-				height: 200px;
-				width: 200px;
-				border: 3px solid #EEEEEE;
-				object-fit: cover;
-				margin: 20px auto;
-				transition: all 0.3s ease;
-			}
-
-			.container .wrapper img.active {
-				height: 470px;
-				width: 350px;
-				margin: 0px auto;
-				border: none;
-				border-radius: 5px;
-			}
-
-			.wrapper .title {
-				color: #EEEEEE;
-				font-size: 30px;
-				font-weight: 500;
-				padding: 10px;
-				line-height: 25px;
-			}
-
-			.wrapper .email {
-				color: #a3a6aa;
-				font-size: 17px;
-				line-height: 0px;
-				margin: 10px 0;
-			}
-
-			.content {
-				color: #EEEEEE;
-				font-size: 17px;
-				margin-top: 10px;
-				padding: 1px 20px 10px 20px!important;
-			}
-
-			.content .buttons {
-				display: flex;
-			}
-
-			.buttons .btn {
-				height: 40px;
-				width: 150px;
-				margin: 0 5px;
-			}
-
-			.buttons .btn button {
-				height: 100%;
-				width: 100%;
-				background: #3282B8;
-				color: #EEEEEE;
-				border: none;
-				outline: none;
-				cursor: pointer;
-				font-size: 17px;
-				font-weight: 500;
-				border-radius: 5px;
-			}
-
-			.btn button:hover {
-				background: #286893;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-			<div class="wrapper">
-				<a href="#">
-					<img src="<?= avatar ?>" alt="<?= username ?>'s Avatar">
-				</a>
-				<div class="title"><?= username ?></div>
-				<div class="email"><?= email ?></div>
-				<div class="content">
-					<p>Okaeri masutā,<br>dokoheikuno?</p>
-					<div class="buttons">
-						<div class="btn">
-							<a href="/_dir/">
-								<button>Directory</button>
-							</a>
-						</div>
-						<div class="btn">
-							<a href="/upload">
-								<button>Upload</button>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<script>
-			const img = document.querySelector('img');
-			img.onclick = function() {
-				this.classList.toggle('active');
-			}
-			img.addEventListener('contextmenu', (e) => {e.preventDefault()});
-		</script>
-	</body>
-</html>
+<?- include('_footer') ?>

@@ -23,6 +23,7 @@ const { exec } = require('child_process');
 const toProperCase = require('./middleware/toProperCase');
 const googleAuth = require('./middleware/googleAuth');
 const { logs } = require('./configs/logs.json');
+const { emitHistory } = require('./middleware/socketHandler');
 
 const app = express();
 ejs.delimiter = '?';
@@ -51,7 +52,7 @@ app.set('view engine', 'ejs');
 app.disable('x-powered-by');
 app.use(favicon('./src/assets/favicon.ico'));
 app.use(morgan('dev', {
-	skip: (req, res) => logs.includes(req.path)
+	skip: (req) => logs.includes(req.path)
 }));
 app.use(session({
 	secret: process.env.SECRET_KEY,
@@ -94,7 +95,7 @@ app.get('/obfuscator', (req, res) => {
 	})
 })
 
-app.get('/discord', (req, res) => {
+app.get('/discord', (res) => {
 	res.redirect('https://discord.gg/WXFAVApEw9');
 });
 
@@ -126,7 +127,7 @@ app.post('/payload', (req, res) => {
 	});
 });
 
-app.all('*', (req, res) => {
+app.all('*', (res) => {
 	res.status(404).render('4xx/404');
 });
 
